@@ -1,0 +1,13 @@
+{
+  "expo": {
+    "name": "Heelia",
+    "slug": "heelia",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "platforms": ["ios", "android", "web"],
+    "sdkVersion": "50.0.0",
+    "backgroundColor": "#050114",
+    "description": "Heelia companion app",
+    "assetBundlePatterns": ["**/*"]
+  }
+}
