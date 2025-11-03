@@ -1,11 +1,11 @@
 import React from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
-import { SafeAreaView, StyleSheet, ViewStyle } from 'react-native';
-import { gradients, spacing } from '../theme';
+import { SafeAreaView, StyleSheet, StyleProp, ViewStyle } from 'react-native';
+import { gradients, palette, spacing } from '../theme';
 
 interface ScreenContainerProps {
   children: React.ReactNode;
-  style?: ViewStyle;
+  style?: StyleProp<ViewStyle>;
 }
 
 export const ScreenContainer: React.FC<ScreenContainerProps> = ({ children, style }) => {
@@ -22,7 +22,15 @@ const styles = StyleSheet.create({
   },
   safeArea: {
     flex: 1,
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.lg
+    paddingHorizontal: spacing.xl,
+    paddingVertical: spacing.xl,
+    backgroundColor: 'rgba(255,255,255,0.75)',
+    borderTopLeftRadius: 32,
+    borderTopRightRadius: 32,
+    shadowColor: palette.blush,
+    shadowOpacity: 0.18,
+    shadowRadius: 24,
+    shadowOffset: { width: 0, height: 12 },
+    elevation: 18
   }
 });

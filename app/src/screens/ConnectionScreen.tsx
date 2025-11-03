@@ -9,7 +9,7 @@ interface ConnectionScreenProps {
 }
 
 const DOT_COUNT = 8;
-const RADIUS = 46;
+const RADIUS = 52;
 
 export const ConnectionScreen: React.FC<ConnectionScreenProps> = ({ onContinue }) => {
   const rotation = useRef(new Animated.Value(0)).current;
@@ -18,7 +18,7 @@ export const ConnectionScreen: React.FC<ConnectionScreenProps> = ({ onContinue }
     Animated.loop(
       Animated.timing(rotation, {
         toValue: 1,
-        duration: 1800,
+        duration: 2000,
         easing: Easing.linear,
         useNativeDriver: true
       })
@@ -35,7 +35,7 @@ export const ConnectionScreen: React.FC<ConnectionScreenProps> = ({ onContinue }
   return (
     <ScreenContainer>
       <View style={styles.wrapper}>
-        <Animated.View style={[styles.spinner, { transform: [{ rotate: spin }] }]}> 
+        <Animated.View style={[styles.spinner, { transform: [{ rotate: spin }] }]}>
           {dots.map((_, index) => {
             const angle = (index / DOT_COUNT) * Math.PI * 2;
             const translateX = Math.cos(angle) * RADIUS;
@@ -45,12 +45,12 @@ export const ConnectionScreen: React.FC<ConnectionScreenProps> = ({ onContinue }
           <View style={styles.dotCore} />
         </Animated.View>
 
-        <View style={styles.textBlock}>
+        <View style={styles.textCard}>
           <Text style={styles.subtitle}>Step 1 · Connect</Text>
           <Text style={styles.title}>Bring Heelia Online</Text>
           <Text style={styles.body}>
-            Plug Heelia into power and keep it within a few feet. Enable Bluetooth on your phone so we can find your
-            device instantly.
+            Plug Heelia into power and keep it within a few feet. Enable Bluetooth on your phone so we can find your device
+            instantly.
           </Text>
         </View>
 
@@ -68,39 +68,58 @@ const styles = StyleSheet.create({
     gap: spacing.xl
   },
   spinner: {
-    width: 160,
-    height: 160,
-    borderRadius: 80,
+    width: 176,
+    height: 176,
+    borderRadius: 88,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 243, 240, 0.8)',
+    shadowColor: palette.blush,
+    shadowOpacity: 0.35,
+    shadowRadius: 28,
+    shadowOffset: { width: 0, height: 12 },
+    elevation: 10
   },
   dot: {
     position: 'absolute',
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    backgroundColor: palette.cottonCandy,
-    shadowColor: palette.cottonCandy,
-    shadowOpacity: 0.6,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 0 }
+    width: 14,
+    height: 14,
+    borderRadius: 7,
+    backgroundColor: palette.softCoral,
+    shadowColor: palette.softCoral,
+    shadowOpacity: 0.45,
+    shadowRadius: 16,
+    shadowOffset: { width: 0, height: 4 }
   },
   dotCore: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    backgroundColor: palette.neonBlue
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: palette.coral,
+    shadowColor: palette.coral,
+    shadowOpacity: 0.4,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 2 }
   },
-  textBlock: {
+  textCard: {
     alignItems: 'center',
-    gap: spacing.sm
+    gap: spacing.md,
+    paddingHorizontal: spacing.xl,
+    paddingVertical: spacing.lg,
+    backgroundColor: 'rgba(255,255,255,0.92)',
+    borderRadius: 36,
+    shadowColor: '#E7D4FF',
+    shadowOpacity: 0.25,
+    shadowRadius: 30,
+    shadowOffset: { width: 0, height: 14 },
+    elevation: 12
   },
   subtitle: {
     ...typography.body,
     textTransform: 'uppercase',
     letterSpacing: 2,
     fontSize: 14,
-    color: 'rgba(255,255,255,0.64)'
+    color: palette.mist
   },
   title: {
     ...typography.heading,
@@ -109,7 +128,7 @@ const styles = StyleSheet.create({
   body: {
     ...typography.body,
     textAlign: 'center',
-    maxWidth: 320,
-    lineHeight: 22
+    lineHeight: 24,
+    maxWidth: 320
   }
 });
