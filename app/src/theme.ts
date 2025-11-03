@@ -18,11 +18,13 @@ export const gradients = {
 
 export const typography = {
   heading: {
+    fontFamily: '"Nunito", "Helvetica Neue", Arial, sans-serif',
     fontSize: 28,
     fontWeight: '700' as const,
     color: palette.graphite
   },
   body: {
+    fontFamily: '"Nunito", "Helvetica Neue", Arial, sans-serif',
     fontSize: 16,
     color: palette.slate
   }
