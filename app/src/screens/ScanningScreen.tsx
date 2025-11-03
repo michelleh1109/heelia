@@ -19,7 +19,7 @@ const DOT_COUNT = 16;
 export const ScanningScreen: React.FC<ScanningScreenProps> = ({ onComplete }) => {
   const [isReady, setIsReady] = useState(false);
   const window = Dimensions.get('window');
-  const size = Math.min(window.width, window.height) * 0.75;
+  const size = Math.min(window.width, window.height) * 0.5;
 
   useEffect(() => {
     const timer = setTimeout(() => setIsReady(true), 4000);
@@ -39,17 +39,18 @@ export const ScanningScreen: React.FC<ScanningScreenProps> = ({ onComplete }) =>
   return (
     <ScreenContainer>
       <View style={styles.wrapper}>
-        <View style={[styles.cloudContainer, { width: size, height: size}]}>
+        <View style={[styles.cloudContainer, { width: size, height: size }]}>
           {dots.map((dot, index) => (
             <PulsingDot key={`dot-${index}`} {...dot} />
           ))}
+          {/* <View style={[styles.innerRing, { width: size * 0.42, height: size * 0.42, borderRadius: (size * 0.42) / 2 }]} /> */}
         </View>
 
         <View style={styles.copy}>
           {/* <Text style={styles.subtitle}>Step 3 · Scan</Text> */}
           <Text style={styles.title}>Ready to Scan</Text>
           <Text style={styles.body}>
-            Slide your heel to back of the device, ensuring wings are still firmly in place. Hold your foot still and press scan.
+            Ensure your heel is touching back of the device, and wings are secure on heel bone. Keep your foot still until scan is ready.
           </Text>
         </View>
 
@@ -108,8 +109,8 @@ const styles = StyleSheet.create({
     gap: spacing.xl
   },
   cloudContainer: {
-    borderRadius: 400,
-    backgroundColor: 'rgba(255, 215, 222, 0.1)',
+    borderRadius: 0,
+    // backgroundColor: 'rgba(255, 215, 222, 0.55)',
     overflow: 'hidden',
     justifyContent: 'center',
     alignItems: 'center',
@@ -119,16 +120,22 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 18 },
     elevation: 16
   },
+  // innerRing: {
+  //   position: 'absolute',
+  //   borderWidth: 1,
+  //   borderColor: 'rgba(255, 138, 124, 0.45)',
+  //   backgroundColor: 'rgba(255, 255, 255, 0.5)'
+  // },
   cloudDot: {
     position: 'absolute',
-    width: 14,
-    height: 14,
-    borderRadius: 7,
+    width: 16,
+    height: 16,
+    borderRadius: 8,
     backgroundColor: palette.softCoral,
     shadowColor: palette.softCoral,
     shadowOpacity: 0.35,
-    shadowRadius: 12,
-    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 15,
+    shadowOffset: { width: 0, height: 8 }
   },
   copy: {
     gap: spacing.md,

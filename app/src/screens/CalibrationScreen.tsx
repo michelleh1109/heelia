@@ -40,15 +40,11 @@ export const CalibrationScreen: React.FC<CalibrationScreenProps> = ({ onComplete
   return (
     <ScreenContainer>
       <View style={styles.wrapper}>
-        <View style={styles.instructionsCard}>
-          <View style={styles.instructionsAccent} />
-          <View style={styles.instructionsContent}>
-            {/* <Text style={styles.subtitle}>Step 2 · Calibrate</Text> */}
-            <Text style={styles.title}>Calibrate</Text>
-            <Text style={styles.body}>
-              Slide heel to back of device. Firmly squeeze wings against your heel bone.
-            </Text>
-          </View>
+        <View style={styles.copy}>
+          <Text style={styles.title}>Calibrate</Text>
+          <Text style={styles.body}>
+            Slide your heel to back of the device. Firmly squeeze the wings around your heel bone.
+          </Text>
         </View>
 
         <View style={styles.progressCard}>
@@ -68,24 +64,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: spacing.xl
   },
-  instructionsCard: {
-    maxWidth: 360,
-    borderRadius: 36,
-    backgroundColor: palette.white,
-    overflow: 'hidden',
-    shadowColor: '#E7D4FF',
-    shadowOpacity: 0.25,
-    shadowRadius: 30,
-    shadowOffset: { width: 0, height: 14 },
-    elevation: 12
-  },
-  instructionsAccent: {
-    height: 6,
-    backgroundColor: palette.softCoral
-  },
-  instructionsContent: {
-    paddingHorizontal: spacing.xl,
-    paddingVertical: spacing.lg,
+  copy: {
     gap: spacing.md
   },
   subtitle: {
@@ -116,11 +95,11 @@ const styles = StyleSheet.create({
   progressTrack: {
     height: 16,
     borderRadius: 12,
-    backgroundColor: '#F9E4E1',
+    // backgroundColor: '#F9E4E1',
     overflow: 'hidden'
   },
   progressFill: {
-    height: '100%',
+    height: '50%',
     borderRadius: 12,
     backgroundColor: palette.coral
   },

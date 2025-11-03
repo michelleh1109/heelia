@@ -12,16 +12,14 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onRestart }) =
     <ScreenContainer>
       <View style={styles.wrapper}>
         <View style={styles.card}>
-          <View style={styles.cardAccent} />
-          <View style={styles.cardContent}>
-            <Text style={[styles.title, styles.centerText]}>Scan Complete!</Text>
-            <Text style={[styles.body, styles.centerText]}>
-              Calibration and scanning are complete. Explore your insights or rerun the setup any time to get the latest fit recommendations.
-            </Text>
-            <Text style={styles.link} onPress={onRestart}>
-              Rerun setup
-            </Text>
-          </View>
+          <Text style={styles.title}>You’re connected!</Text>
+          <Text style={styles.body}>
+            Calibration and scanning are complete. Explore your insights or rerun the setup any time to get the latest fit
+            recommendations.
+          </Text>
+          <Text style={styles.link} onPress={onRestart}>
+            Rerun setup
+          </Text>
         </View>
       </View>
     </ScreenContainer>
@@ -37,29 +35,23 @@ const styles = StyleSheet.create({
   card: {
     width: '100%',
     maxWidth: 360,
+    backgroundColor: palette.white,
+    padding: spacing.xl,
     borderRadius: 36,
-    // backgroundColor: 'rgba(255,255,255,0.95)',
-    shadowColor: palette.blush,
+    gap: spacing.lg,
+    shadowColor: '#E7D4FF',
     shadowOpacity: 0.35,
     shadowRadius: 32,
     shadowOffset: { width: 0, height: 16 },
-    elevation: 14,
-    overflow: 'hidden'
-  },
-  cardContent: {
-    paddingHorizontal: spacing.xl,
-    paddingVertical: spacing.xl,
-    gap: spacing.lg
+    elevation: 14
   },
   title: {
     ...typography.heading
   },
   body: {
     ...typography.body,
+    textAlign: 'center',
     lineHeight: 24
-  },
-  centerText: {
-    textAlign: 'center'
   },
   link: {
     alignSelf: 'center',

@@ -45,15 +45,12 @@ export const ConnectionScreen: React.FC<ConnectionScreenProps> = ({ onContinue }
           <View style={styles.dotCore} />
         </Animated.View>
 
-        <View style={styles.card}>
-          <View style={styles.cardAccent} />
-          <View style={styles.cardContent}>
-            {/* <Text style={[styles.subtitle, styles.centerText]}>Step 1 · Connect</Text> */}
-            <Text style={[styles.title, styles.centerText]}>Bluetooth Pairing</Text>
-            <Text style={[styles.body, styles.centerText]}>
-              Plug Heelia into power and turn it on. Enable Bluetooth on your phone.
-            </Text>
-          </View>
+        <View style={styles.textCard}>
+          {/* <Text style={styles.subtitle}>Step 1 · Connect</Text> */}
+          <Text style={styles.title}>Bluetooth Pairing</Text>
+          <Text style={styles.body}>
+            Plug Heelia into power. Enable Bluetooth on your phone and select the device in settings.
+          </Text>
         </View>
 
         <PrimaryButton label="Connect" onPress={onContinue} />
@@ -69,49 +66,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: spacing.xl
   },
-  card: {
-    width: '100%',
-    maxWidth: 380,
-    borderRadius: 36,
-    // backgroundColor: 'rgba(255,255,255,0.92)',
-    shadowColor: palette.blush,
-    shadowOpacity: 0.3,
-    shadowRadius: 32,
-    shadowOffset: { width: 0, height: 16 },
-    elevation: 12,
-    overflow: 'hidden'
-  },
-  cardContent: {
-    paddingHorizontal: spacing.xl,
-    paddingVertical: spacing.lg,
-    gap: spacing.md
-  },
-  subtitle: {
-    ...typography.body,
-    textTransform: 'uppercase',
-    letterSpacing: 2,
-    fontSize: 14,
-    color: palette.mist
-  },
-  title: {
-    ...typography.heading,
-    textAlign: 'center'
-  },
-  body: {
-    ...typography.body,
-    lineHeight: 24,
-    textAlign: 'center'
-  },
-  centerText: {
-    textAlign: 'center'
-  },
   spinner: {
     width: 176,
     height: 176,
     borderRadius: 88,
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: 'rgba(255, 243, 240, 0.8)',
+    backgroundColor: 'rgba(255, 243, 240, 0.8)',
     shadowColor: palette.blush,
     shadowOpacity: 0.35,
     shadowRadius: 28,
@@ -138,5 +99,34 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowRadius: 10,
     shadowOffset: { width: 0, height: 2 }
+  },
+  textCard: {
+    alignItems: 'center',
+    gap: spacing.md,
+    paddingHorizontal: spacing.xl,
+    paddingVertical: spacing.lg,
+    borderRadius: 36,
+    shadowColor: '#E7D4FF',
+    shadowOpacity: 0.25,
+    shadowRadius: 30,
+    shadowOffset: { width: 0, height: 14 },
+    elevation: 12
+  },
+  subtitle: {
+    ...typography.body,
+    textTransform: 'uppercase',
+    letterSpacing: 2,
+    fontSize: 14,
+    color: palette.mist
+  },
+  title: {
+    ...typography.heading,
+    textAlign: 'center'
+  },
+  body: {
+    ...typography.body,
+    textAlign: 'center',
+    lineHeight: 24,
+    maxWidth: 320
   }
 });
