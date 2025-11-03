@@ -46,15 +46,14 @@ export const ConnectionScreen: React.FC<ConnectionScreenProps> = ({ onContinue }
         </Animated.View>
 
         <View style={styles.textCard}>
-          <Text style={styles.subtitle}>Step 1 · Connect</Text>
-          <Text style={styles.title}>Bring Heelia Online</Text>
+          {/* <Text style={styles.subtitle}>Step 1 · Connect</Text> */}
+          <Text style={styles.title}>Bluetooth Pairing</Text>
           <Text style={styles.body}>
-            Plug Heelia into power and keep it within a few feet. Enable Bluetooth on your phone so we can find your device
-            instantly.
+            Plug Heelia into power. Enable Bluetooth on your phone and select the device in settings.
           </Text>
         </View>
 
-        <PrimaryButton label="Connect to Heelia" onPress={onContinue} />
+        <PrimaryButton label="Connect" onPress={onContinue} />
       </View>
     </ScreenContainer>
   );
@@ -106,7 +105,6 @@ const styles = StyleSheet.create({
     gap: spacing.md,
     paddingHorizontal: spacing.xl,
     paddingVertical: spacing.lg,
-    backgroundColor: 'rgba(255,255,255,0.92)',
     borderRadius: 36,
     shadowColor: '#E7D4FF',
     shadowOpacity: 0.25,

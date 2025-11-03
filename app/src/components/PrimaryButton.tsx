@@ -21,14 +21,15 @@ export const PrimaryButton: React.FC<PrimaryButtonProps> = ({ label, onPress, di
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
+    width: '50%',
     borderRadius: 32,
     overflow: 'hidden',
     shadowColor: palette.coral,
     shadowOpacity: 0.3,
     shadowRadius: 18,
-    shadowOffset: { width: 0, height: 10 },
-    elevation: 6
+    shadowOffset: { width: 0, height: 10
+     },
+    elevation: 2
   },
   gradient: {
     paddingVertical: spacing.md,
@@ -46,6 +47,6 @@ const styles = StyleSheet.create({
     opacity: 0.85
   },
   disabled: {
-    opacity: 0.55
+    opacity: 0.70
   }
 });
