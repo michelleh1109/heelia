@@ -3,6 +3,7 @@ import { Animated, Easing, StyleSheet, Text, View } from 'react-native';
 import { palette, spacing, typography } from '../theme';
 import { ScreenContainer } from '../components/ScreenContainer';
 import { PrimaryButton } from '../components/PrimaryButton';
+import { GlassCard } from '../components/glasscard';
 
 interface ConnectionScreenProps {
   onContinue: () => void;
@@ -45,13 +46,13 @@ export const ConnectionScreen: React.FC<ConnectionScreenProps> = ({ onContinue }
           <View style={styles.dotCore} />
         </Animated.View>
 
-        <View style={styles.textCard}>
+        <GlassCard style={styles.textCard}>
           {/* <Text style={styles.subtitle}>Step 1 · Connect</Text> */}
           <Text style={styles.title}>Bluetooth Pairing</Text>
           <Text style={styles.body}>
             Plug Heelia into power. Enable Bluetooth on your phone and select the device in settings.
           </Text>
-        </View>
+        </GlassCard>
 
         <PrimaryButton label="Connect" onPress={onContinue} />
       </View>
@@ -110,7 +111,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 30,
     shadowOffset: { width: 0, height: 14 },
-    elevation: 12
+    elevation: 12,
+    borderWidth: 1.2,
   },
   title: {
     ...typography.heading,

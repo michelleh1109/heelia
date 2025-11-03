@@ -3,6 +3,7 @@ import { Animated, Dimensions, StyleSheet, Text, View } from 'react-native';
 import { palette, spacing, typography } from '../theme';
 import { ScreenContainer } from '../components/ScreenContainer';
 import { PrimaryButton } from '../components/PrimaryButton';
+import { GlassCard } from '../components/glasscard';
 
 interface ScanningScreenProps {
   onComplete: () => void;
@@ -46,13 +47,12 @@ export const ScanningScreen: React.FC<ScanningScreenProps> = ({ onComplete }) =>
           {/* <View style={[styles.innerRing, { width: size * 0.42, height: size * 0.42, borderRadius: (size * 0.42) / 2 }]} /> */}
         </View>
 
-        <View style={styles.copy}>
-
+        <GlassCard style={styles.copy}>
           <Text style={styles.title}>Ready to Scan</Text>
           <Text style={styles.body}>
             Ensure your heel is touching back of the device, and wings are secure on heel bone. Keep your foot still until scan is ready.
           </Text>
-        </View>
+        </GlassCard>
 
         <PrimaryButton label='Scan' onPress={onComplete}/>
       </View>
@@ -142,7 +142,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 28,
     shadowOffset: { width: 0, height: 14 },
-    elevation: 12
+    elevation: 12,
+    borderWidth: 1.2,
   },
   subtitle: {
     ...typography.body,

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Easing, StyleSheet, Text, View } from 'react-native';
 import { ScreenContainer } from '../components/ScreenContainer';
 import { palette, spacing, typography } from '../theme';
+import { GlassCard } from '../components/glasscard';
 
 interface CalibrationScreenProps {
   onComplete: () => void;
@@ -91,12 +92,12 @@ export const CalibrationScreen: React.FC<CalibrationScreenProps> = ({ onComplete
           </Animated.View>
         </View>
 
-        <View style={styles.copy}>
+        <GlassCard style={styles.copy}>
           <Text style={styles.title}>Calibrating...</Text>
           <Text style={styles.body}>
             Slide your heel to back of the device. Firmly squeeze the wings around your heel bone.
           </Text>
-        </View>
+        </GlassCard>
 
         <View style={styles.pill}>
           <Animated.View style={[styles.pillFill, { width: widthInterpolation }]} />
@@ -149,6 +150,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: spacing.md,
     paddingHorizontal: spacing.xl,
+    paddingVertical: spacing.lg,
+    borderRadius: 32,
+    shadowColor: '#E7D4FF',
+    shadowOpacity: 0.25,
+    shadowRadius: 26,
+    shadowOffset: { width: 0, height: 12 },
+    borderWidth: 1.2,
   },
   title: {
     ...typography.heading,

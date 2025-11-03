@@ -11,9 +11,9 @@ export const palette = {
 };
 
 export const gradients = {
-  background: [palette.white, '#FFF2F4', '#FFE9E3'],
-  button: [palette.coral, palette.softCoral],
-  highlight: [palette.blush, palette.lilac]
+  background: [palette.white, '#FFF2F4', '#FFE9E3'] as const,
+  button: [palette.coral, palette.softCoral] as const,
+  highlight: [palette.blush, palette.lilac] as const
 };
 
 export const typography = {
