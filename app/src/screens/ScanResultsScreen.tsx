@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
-import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
+import React, { useCallback, useRef } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
-import { ScreenContainer } from '../components/ScreenContainer';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { BottomSheet, BottomSheetHandle } from '../components/BottomSheet';
 import { gradients, palette, spacing, typography } from '../theme';
 
 interface ScanResultsScreenProps {
@@ -9,137 +9,181 @@ interface ScanResultsScreenProps {
 }
 
 export const ScanResultsScreen: React.FC<ScanResultsScreenProps> = ({ onNext }) => {
-  const appear = useRef(new Animated.Value(0)).current;
-  const translate = useRef(new Animated.Value(24)).current;
+  const sheetRef = useRef<BottomSheetHandle>(null);
 
-  useEffect(() => {
-    Animated.parallel([
-      Animated.timing(appear, {
-        toValue: 1,
-        duration: 600,
-        useNativeDriver: true
-      }),
-      Animated.timing(translate, {
-        toValue: 0,
-        duration: 600,
-        useNativeDriver: true
-      })
-    ]).start();
-  }, [appear, translate]);
+  const handleContinue = useCallback(() => {
+    if (sheetRef.current) {
+      sheetRef.current.close();
+      return;
+    }
+    onNext();
+  }, [onNext]);
+
+  const handleClosed = useCallback(() => {
+    onNext();
+  }, [onNext]);
 
   return (
-    <ScreenContainer>
-      <Animated.View style={[styles.wrapper, { opacity: appear, transform: [{ translateY: translate }] }]}>
+    <View style={styles.root}>
+      <LinearGradient colors={gradients.background} style={StyleSheet.absoluteFill} />
+      <BottomSheet ref={sheetRef} onClosed={handleClosed} contentStyle={styles.sheetContent}>
         <View style={styles.header}>
           <Text style={styles.overline}>Scan complete</Text>
           <Text style={styles.timestamp}>Captured May 12, 2026 · 09:42 AM</Text>
         </View>
 
-        <LinearGradient colors={gradients.highlight} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.resultCard}>
-          <View style={styles.scoreBadge}>
-            <Text style={styles.scoreValue}>-1.6</Text>
-            <Text style={styles.scoreLabel}>T-score</Text>
-          </View>
-
-          <View style={styles.riskPanel}>
-            <Text style={styles.riskLevel}>Moderate fall risk</Text>
-            <Text style={styles.riskBody}>Bone health improving. Maintain daily balance exercises and calcium intake.</Text>
-          </View>
-
-          <View style={styles.deltaRow}>
-            <View>
-              <Text style={styles.deltaLabel}>+0.2 from your last scan</Text>
-              <Text style={styles.deltaSub}>Previous: -1.8 · Apr 18, 2026</Text>
+        <LinearGradient colors={gradients.highlight} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.summaryCard}>
+          <View style={styles.summaryRow}>
+            <View style={styles.scoreColumn}>
+              <Text style={styles.scoreValue}>-1.6</Text>
+              <Text style={styles.scoreLabel}>T-score</Text>
+              <View style={styles.deltaPill}>
+                <Text style={styles.deltaValue}>+0.2</Text>
+                <Text style={styles.deltaLabel}>vs. last scan</Text>
+              </View>
             </View>
-            <View style={styles.pulseDot} />
+            <View style={styles.insightColumn}>
+              <Text style={styles.riskLevel}>Improving trend</Text>
+              <Text style={styles.riskBody}>
+                Bone health is trending upward. Keep up the balance work and calcium support routine.
+              </Text>
+              <View style={styles.statusRow}>
+                <View style={styles.statusDot} />
+                <Text style={styles.statusLabel}>Moderate fall risk</Text>
+              </View>
+            </View>
+          </View>
+          <View style={styles.previousRow}>
+            <Text style={styles.previousLabel}>Previous</Text>
+            <Text style={styles.previousValue}>-1.8 · Apr 18, 2026</Text>
           </View>
         </LinearGradient>
 
-        <View style={styles.metricsRow}>
+        <View style={styles.metricsGrid}>
           <View style={styles.metricCard}>
-            <Text style={styles.metricValue}>1.2</Text>
-            <Text style={styles.metricLabel}>Seconds scanned</Text>
+            <Text style={styles.metricHeading}>Scan duration</Text>
+            <Text style={styles.metricValue}>1.2 sec</Text>
+            <Text style={styles.metricHelper}>Capture time stayed within target window.</Text>
           </View>
           <View style={styles.metricCard}>
-            <Text style={styles.metricValue}>6</Text>
-            <Text style={styles.metricLabel}>Week Streak</Text>
+            <Text style={styles.metricHeading}>Streak</Text>
+            <Text style={styles.metricValue}>6 weeks</Text>
+            <Text style={styles.metricHelper}>Consistent weekly scans maintain your baseline.</Text>
+          </View>
+          <View style={styles.metricCard}>
+            <Text style={styles.metricHeading}>Next check-in</Text>
+            <Text style={styles.metricValue}>in 2 days</Text>
+            <Text style={styles.metricHelper}>We will remind you about your strength session.</Text>
+          </View>
+        </View>
+
+        <View style={styles.tipCard}>
+          <Text style={styles.tipTitle}>Suggested focus</Text>
+          <View style={styles.tipRow}>
+            <View style={styles.tipBullet} />
+            <Text style={styles.tipText}>Add 10 minutes of balance work to your next walk.</Text>
+          </View>
+          <View style={styles.tipRow}>
+            <View style={styles.tipBullet} />
+            <Text style={styles.tipText}>Log calcium supplements by 10 AM and 8 PM today.</Text>
+          </View>
+          <View style={styles.tipRow}>
+            <View style={styles.tipBullet} />
+            <Text style={styles.tipText}>Share today’s scan with Dr. Patel ahead of your visit.</Text>
           </View>
         </View>
 
         <View style={styles.actions}>
-          <Text style={styles.actionHint}>Review deeper insights anytime on your dashboard.</Text>
-          <Pressable onPress={onNext} style={({ pressed }) => [styles.arrowButtonWrapper, pressed && styles.arrowPressed]}>
-            <LinearGradient colors={gradients.button} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.arrowButton}>
-              <Text style={styles.arrowIcon}>→</Text>
+          <Text style={styles.actionHint}>Insights are now saved. Review trends or share with your care team anytime.</Text>
+          <Pressable onPress={handleContinue} style={({ pressed }) => [styles.actionButton, pressed && styles.actionButtonPressed]}>
+            <LinearGradient colors={gradients.button} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.buttonBackground}>
+              <Text style={styles.buttonLabel}>Go to dashboard</Text>
             </LinearGradient>
-            <Text style={styles.actionLabel}>Dashboard</Text>
           </Pressable>
         </View>
-      </Animated.View>
-    </ScreenContainer>
+      </BottomSheet>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  wrapper: {
+  root: {
     flex: 1,
-    justifyContent: 'center',
-    gap: spacing.xl
+    justifyContent: 'flex-end'
+  },
+  sheetContent: {
+    gap: spacing.lg
   },
   header: {
-    gap: spacing.xs
+    gap: spacing.xs / 2
   },
   overline: {
     ...typography.body,
-    textTransform: 'uppercase',
-    letterSpacing: 2,
     fontSize: 12,
+    letterSpacing: 2,
+    textTransform: 'uppercase',
     color: palette.mist
   },
   timestamp: {
     ...typography.body,
-    color: palette.graphite,
     fontSize: 18,
-    fontWeight: '600'
+    fontWeight: '600',
+    color: palette.graphite
   },
-  resultCard: {
-    borderRadius: 40,
-    padding: spacing.xl,
+  summaryCard: {
+    borderRadius: 32,
+    padding: spacing.lg,
     gap: spacing.lg,
     shadowColor: '#E7D4FF',
-    shadowOpacity: 0.32,
-    shadowRadius: 32,
-    shadowOffset: { width: 0, height: 18 }
+    shadowOpacity: 0.35,
+    shadowRadius: 28,
+    shadowOffset: { width: 0, height: 16 }
   },
-  scoreBadge: {
-    alignSelf: 'center',
+  summaryRow: {
+    flexDirection: 'row',
+    gap: spacing.lg
+  },
+  scoreColumn: {
+    width: 132,
+    borderRadius: 28,
+    padding: spacing.md,
+    backgroundColor: 'rgba(255,255,255,0.78)',
     alignItems: 'center',
-    justifyContent: 'center',
-    width: 160,
-    height: 160,
-    borderRadius: 80,
-    backgroundColor: 'rgba(255, 255, 255, 0.75)',
-    shadowColor: '#FFD6CE',
-    shadowOpacity: 0.45,
-    shadowRadius: 24,
-    shadowOffset: { width: 0, height: 12 },
-    gap: spacing.xs
+    gap: spacing.sm
   },
   scoreValue: {
-    fontSize: 56,
+    fontSize: 44,
     fontWeight: '700',
     color: palette.graphite
   },
   scoreLabel: {
     ...typography.body,
-    color: palette.mist,
-    letterSpacing: 1.5,
-    textTransform: 'uppercase'
+    fontSize: 14,
+    letterSpacing: 1.2,
+    textTransform: 'uppercase',
+    color: palette.mist
   },
-  riskPanel: {
-    backgroundColor: 'rgba(46, 42, 58, 0.08)',
-    borderRadius: 28,
-    padding: spacing.lg,
+  deltaPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.xs / 2,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.xs / 1.5,
+    borderRadius: 16,
+    backgroundColor: 'rgba(255, 139, 124, 0.16)'
+  },
+  deltaValue: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: palette.coral
+  },
+  deltaLabel: {
+    ...typography.body,
+    fontSize: 13,
+    color: palette.coral
+  },
+  insightColumn: {
+    flex: 1,
     gap: spacing.sm
   },
   riskLevel: {
@@ -151,62 +195,106 @@ const styles = StyleSheet.create({
     ...typography.body,
     lineHeight: 22
   },
-  deltaRow: {
+  statusRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.xs
+  },
+  statusDot: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    backgroundColor: palette.coral
+  },
+  statusLabel: {
+    ...typography.body,
+    fontWeight: '600',
+    color: palette.coral
+  },
+  previousRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-    borderRadius: 24,
-    backgroundColor: 'rgba(255, 255, 255, 0.72)',
-    shadowColor: '#F4DADA',
-    shadowOpacity: 0.4,
-    shadowRadius: 18,
-    shadowOffset: { width: 0, height: 10 }
+    paddingVertical: spacing.xs,
+    borderRadius: 20,
+    backgroundColor: 'rgba(255,255,255,0.8)'
   },
-  deltaLabel: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: palette.coral
-  },
-  deltaSub: {
+  previousLabel: {
     ...typography.body,
-    color: palette.mist
+    fontSize: 14,
+    color: palette.mist,
+    textTransform: 'uppercase',
+    letterSpacing: 1.1
   },
-  pulseDot: {
-    width: 18,
-    height: 18,
-    borderRadius: 9,
-    backgroundColor: palette.coral,
-    shadowColor: palette.coral,
-    shadowOpacity: 0.6,
-    shadowRadius: 16,
-    shadowOffset: { width: 0, height: 6 }
+  previousValue: {
+    ...typography.body,
+    fontWeight: '600',
+    color: palette.graphite
   },
-  metricsRow: {
+  metricsGrid: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexWrap: 'wrap',
     gap: spacing.md
   },
   metricCard: {
-    flex: 1,
+    flexBasis: '48%',
+    flexGrow: 1,
     borderRadius: 28,
-    padding: spacing.lg,
-    backgroundColor: 'rgba(255, 255, 255, 0.82)',
+    padding: spacing.md,
+    backgroundColor: palette.white,
+    gap: spacing.xs,
+    borderWidth: 1,
+    borderColor: 'rgba(232, 226, 255, 0.5)',
     shadowColor: '#E7D4FF',
-    shadowOpacity: 0.3,
-    shadowRadius: 24,
-    shadowOffset: { width: 0, height: 12 },
-    gap: spacing.sm
+    shadowOpacity: 0.22,
+    shadowRadius: 18,
+    shadowOffset: { width: 0, height: 12 }
+  },
+  metricHeading: {
+    ...typography.body,
+    fontSize: 14,
+    color: palette.mist,
+    textTransform: 'uppercase',
+    letterSpacing: 1
   },
   metricValue: {
-    fontSize: 32,
+    fontSize: 22,
     fontWeight: '700',
     color: palette.graphite
   },
-  metricLabel: {
+  metricHelper: {
     ...typography.body,
-    color: palette.mist
+    fontSize: 15,
+    lineHeight: 20
+  },
+  tipCard: {
+    borderRadius: 28,
+    padding: spacing.lg,
+    backgroundColor: 'rgba(255, 247, 242, 0.85)',
+    gap: spacing.sm
+  },
+  tipTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: palette.graphite
+  },
+  tipRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: spacing.sm
+  },
+  tipBullet: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginTop: 6,
+    backgroundColor: palette.coral
+  },
+  tipText: {
+    ...typography.body,
+    flex: 1,
+    lineHeight: 20
   },
   actions: {
     alignItems: 'center',
@@ -217,35 +305,22 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: palette.mist
   },
-  arrowButtonWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.sm
+  actionButton: {
+    borderRadius: 30,
+    overflow: 'hidden'
   },
-  arrowPressed: {
-    opacity: 0.85
+  actionButtonPressed: {
+    opacity: 0.9
   },
-  arrowButton: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: palette.coral,
-    shadowOpacity: 0.35,
-    shadowRadius: 22,
-    shadowOffset: { width: 0, height: 12 }
+  buttonBackground: {
+    paddingHorizontal: spacing.xl,
+    paddingVertical: spacing.sm,
+    alignItems: 'center'
   },
-  arrowIcon: {
-    fontSize: 28,
+  buttonLabel: {
+    ...typography.body,
+    fontSize: 17,
     fontWeight: '700',
     color: palette.white
-  },
-  actionLabel: {
-    ...typography.body,
-    fontSize: 18,
-    fontWeight: '700',
-    color: palette.graphite
   }
 });
-
