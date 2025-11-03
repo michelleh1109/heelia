@@ -1,7 +1,6 @@
-import React, { useEffect, useRef } from 'react';
-import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
+import React, { useCallback, useRef } from 'react';
+import { Animated, PanResponder, Pressable, StyleSheet, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { ScreenContainer } from '../components/ScreenContainer';
 import { gradients, palette, spacing, typography } from '../theme';
 
 interface ScanResultsScreenProps {
@@ -9,27 +8,96 @@ interface ScanResultsScreenProps {
 }
 
 export const ScanResultsScreen: React.FC<ScanResultsScreenProps> = ({ onNext }) => {
-  const appear = useRef(new Animated.Value(0)).current;
-  const translate = useRef(new Animated.Value(24)).current;
+  const translateY = useRef(new Animated.Value(0)).current;
+  const sheetHeight = useRef(0);
+  const startOffset = useRef(0);
+  const hasPresented = useRef(false);
 
-  useEffect(() => {
-    Animated.parallel([
-      Animated.timing(appear, {
-        toValue: 1,
-        duration: 600,
-        useNativeDriver: true
-      }),
-      Animated.timing(translate, {
-        toValue: 0,
-        duration: 600,
-        useNativeDriver: true
-      })
-    ]).start();
-  }, [appear, translate]);
+  const handleClose = useCallback(() => {
+    const distance = sheetHeight.current || 420;
+    Animated.timing(translateY, {
+      toValue: distance,
+      duration: 240,
+      useNativeDriver: true
+    }).start(() => onNext());
+  }, [onNext, translateY]);
+
+  const panResponder = useRef(
+    PanResponder.create({
+      onMoveShouldSetPanResponder: (_, gesture) => Math.abs(gesture.dy) > 6,
+      onPanResponderGrant: () => {
+        translateY.stopAnimation((value: number) => {
+          startOffset.current = value;
+        });
+      },
+      onPanResponderMove: (_, gesture) => {
+        const nextOffset = startOffset.current + gesture.dy;
+        const clamped = Math.max(-48, Math.min(nextOffset, (sheetHeight.current || 420) + 48));
+        translateY.setValue(clamped < 0 ? clamped * 0.35 : clamped);
+      },
+      onPanResponderRelease: (_, gesture) => {
+        const distance = sheetHeight.current || 420;
+        const projected = startOffset.current + gesture.dy + gesture.vy * 40;
+        const shouldClose = projected > distance * 0.45 || gesture.vy > 1.1;
+        if (shouldClose) {
+          handleClose();
+        } else {
+          Animated.spring(translateY, {
+            toValue: 0,
+            bounciness: 6,
+            useNativeDriver: true
+          }).start();
+        }
+      },
+      onPanResponderTerminate: () => {
+        Animated.spring(translateY, {
+          toValue: 0,
+          bounciness: 6,
+          useNativeDriver: true
+        }).start();
+      }
+    })
+  ).current;
+
+  const handleLayout = useCallback(
+    (event: any) => {
+      const { height } = event.nativeEvent.layout;
+      if (!height) {
+        return;
+      }
+      sheetHeight.current = height;
+      if (!hasPresented.current) {
+        hasPresented.current = true;
+        translateY.setValue(height);
+        requestAnimationFrame(() => {
+          Animated.spring(translateY, {
+            toValue: 0,
+            damping: 16,
+            stiffness: 140,
+            useNativeDriver: true
+          }).start();
+        });
+      }
+    },
+    [translateY]
+  );
+
+  const scrimOpacity = translateY.interpolate({
+    inputRange: [0, 320],
+    outputRange: [0.35, 0],
+    extrapolate: 'clamp'
+  });
 
   return (
-    <ScreenContainer>
-      <Animated.View style={[styles.wrapper, { opacity: appear, transform: [{ translateY: translate }] }]}>
+    <View style={styles.root}>
+      <LinearGradient colors={gradients.background} style={StyleSheet.absoluteFill} />
+      <Animated.View pointerEvents="none" style={[styles.scrim, { opacity: scrimOpacity }]} />
+      <Animated.View
+        style={[styles.sheet, { transform: [{ translateY }] }]}
+        {...panResponder.panHandlers}
+        onLayout={handleLayout}
+      >
+        <View style={styles.pillHandle} />
         <View style={styles.header}>
           <Text style={styles.overline}>Scan complete</Text>
           <Text style={styles.timestamp}>Captured May 12, 2026 · 09:42 AM</Text>
@@ -68,7 +136,7 @@ export const ScanResultsScreen: React.FC<ScanResultsScreenProps> = ({ onNext }) 
 
         <View style={styles.actions}>
           <Text style={styles.actionHint}>Review deeper insights anytime on your dashboard.</Text>
-          <Pressable onPress={onNext} style={({ pressed }) => [styles.arrowButtonWrapper, pressed && styles.arrowPressed]}>
+          <Pressable onPress={handleClose} style={({ pressed }) => [styles.arrowButtonWrapper, pressed && styles.arrowPressed]}>
             <LinearGradient colors={gradients.button} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.arrowButton}>
               <Text style={styles.arrowIcon}>→</Text>
             </LinearGradient>
@@ -76,15 +144,39 @@ export const ScanResultsScreen: React.FC<ScanResultsScreenProps> = ({ onNext }) 
           </Pressable>
         </View>
       </Animated.View>
-    </ScreenContainer>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  wrapper: {
+  root: {
     flex: 1,
-    justifyContent: 'center',
-    gap: spacing.xl
+    justifyContent: 'flex-end'
+  },
+  scrim: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: palette.graphite
+  },
+  sheet: {
+    backgroundColor: 'rgba(255, 255, 255, 0.92)',
+    borderTopLeftRadius: 36,
+    borderTopRightRadius: 36,
+    paddingHorizontal: spacing.xl,
+    paddingBottom: spacing.xl + spacing.md,
+    paddingTop: spacing.lg,
+    gap: spacing.xl,
+    shadowColor: palette.graphite,
+    shadowOpacity: 0.16,
+    shadowRadius: 28,
+    shadowOffset: { width: 0, height: -12 },
+    elevation: 22
+  },
+  pillHandle: {
+    alignSelf: 'center',
+    width: 64,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: 'rgba(36, 31, 46, 0.18)'
   },
   header: {
     gap: spacing.xs
