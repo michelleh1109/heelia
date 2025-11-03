@@ -1,15 +1,39 @@
 import React from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
-import { BlurView } from '@react-native-community/blur';
-import type { BlurViewProps } from '@react-native-community/blur';
 import { View, ViewStyle, StyleSheet, StyleProp } from 'react-native';
+
+type GlassCardTint = 'default' | 'light' | 'dark' | 'extraLight';
+
+type BlurModule = typeof import('expo-blur');
+
+type BlurLayerProps = {
+  tint?: GlassCardTint;
+  intensity?: number;
+  style?: StyleProp<ViewStyle>;
+};
+
+let resolvedBlurModule: BlurModule | undefined;
+
+try {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
+  resolvedBlurModule = require('expo-blur') as BlurModule;
+} catch {
+  resolvedBlurModule = undefined;
+}
+
+const FallbackBlurView: React.FC<BlurLayerProps> = ({ style }) => (
+  <View style={[styles.fallbackBlur, style]} />
+);
+
+const BlurViewComponent: React.ComponentType<BlurLayerProps> =
+  resolvedBlurModule?.BlurView ?? FallbackBlurView;
 
 interface GlassCardProps {
   children: React.ReactNode;
   style?: StyleProp<ViewStyle>;
   borderRadius?: number;
-  tint?: BlurViewProps['blurType'];
-  blurAmount?: number;
+  tint?: GlassCardTint;
+  intensity?: number;
 }
 
 export const GlassCard: React.FC<GlassCardProps> = ({
@@ -17,8 +41,16 @@ export const GlassCard: React.FC<GlassCardProps> = ({
   style,
   borderRadius = 24,
   tint = 'light',
-  blurAmount = 22,
+  intensity = 65,
 }) => {
+  const clampedIntensity = Math.max(0, Math.min(100, intensity));
+  const blurProps: BlurLayerProps = {
+    tint,
+    intensity: clampedIntensity,
+  };
+
+  const isBlurAvailable = resolvedBlurModule?.BlurView != null;
+
   return (
     <View
       style={[
@@ -26,14 +58,13 @@ export const GlassCard: React.FC<GlassCardProps> = ({
         {
           borderRadius,
         },
+        !isBlurAvailable && styles.fallbackContainer,
         style,
       ]}
     >
-      <BlurView
+      <BlurViewComponent
         style={[styles.blurLayer, { borderRadius }]}
-        blurType={tint}
-        blurAmount={blurAmount}
-        reducedTransparencyFallbackColor="rgba(255,255,255,0.85)"
+        {...blurProps}
       />
       <LinearGradient
         pointerEvents="none"
@@ -55,6 +86,9 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(255,255,255,0.35)',
     backgroundColor: 'rgba(255,255,255,0.12)',
   },
+  fallbackContainer: {
+    backgroundColor: 'rgba(255,255,255,0.24)',
+  },
   blurLayer: {
     ...StyleSheet.absoluteFillObject,
   },
@@ -65,6 +99,10 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.18)',
+  },
+  fallbackBlur: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(255,255,255,0.18)',
   },
   content: {
     position: 'relative',
