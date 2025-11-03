@@ -40,13 +40,15 @@ export const CalibrationScreen: React.FC<CalibrationScreenProps> = ({ onComplete
   return (
     <ScreenContainer>
       <View style={styles.wrapper}>
-        <View style={styles.copy}>
-          <Text style={styles.subtitle}>Step 2 · Calibrate</Text>
-          <Text style={styles.title}>Squeeze the wings firmly</Text>
-          <Text style={styles.body}>
-            Hold Heelia upright and gently squeeze the wings three times. This helps us measure your baseline pressure
-            so readings stay precise.
-          </Text>
+        <View style={styles.instructionsCard}>
+          <View style={styles.instructionsAccent} />
+          <View style={styles.instructionsContent}>
+            <Text style={styles.subtitle}>Step 2 · Calibrate</Text>
+            <Text style={styles.title}>Squeeze the wings firmly</Text>
+            <Text style={styles.body}>
+              Hold Heelia upright and gently squeeze the wings three times. This helps us measure your baseline pressure so readings stay precise.
+            </Text>
+          </View>
         </View>
 
         <View style={styles.progressCard}>
@@ -66,44 +68,65 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: spacing.xl
   },
-  copy: {
-    gap: spacing.sm
+  instructionsCard: {
+    maxWidth: 360,
+    borderRadius: 36,
+    backgroundColor: palette.white,
+    overflow: 'hidden',
+    shadowColor: '#E7D4FF',
+    shadowOpacity: 0.25,
+    shadowRadius: 30,
+    shadowOffset: { width: 0, height: 14 },
+    elevation: 12
+  },
+  instructionsAccent: {
+    height: 6,
+    backgroundColor: palette.softCoral
+  },
+  instructionsContent: {
+    paddingHorizontal: spacing.xl,
+    paddingVertical: spacing.lg,
+    gap: spacing.md
   },
   subtitle: {
     ...typography.body,
     textTransform: 'uppercase',
     letterSpacing: 2,
     fontSize: 14,
-    color: 'rgba(255,255,255,0.64)'
+    color: palette.mist
   },
   title: {
     ...typography.heading
   },
   body: {
     ...typography.body,
-    lineHeight: 22
+    lineHeight: 24
   },
   progressCard: {
-    backgroundColor: 'rgba(12, 8, 40, 0.76)',
-    borderRadius: 24,
-    padding: spacing.lg,
-    gap: spacing.md,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)'
+    backgroundColor: palette.white,
+    borderRadius: 36,
+    padding: spacing.xl,
+    gap: spacing.lg,
+    shadowColor: '#E7D4FF',
+    shadowOpacity: 0.3,
+    shadowRadius: 28,
+    shadowOffset: { width: 0, height: 14 },
+    elevation: 12
   },
   progressTrack: {
-    height: 14,
+    height: 16,
     borderRadius: 12,
-    backgroundColor: 'rgba(255,255,255,0.12)',
+    backgroundColor: '#F9E4E1',
     overflow: 'hidden'
   },
   progressFill: {
     height: '100%',
     borderRadius: 12,
-    backgroundColor: palette.neonBlue
+    backgroundColor: palette.coral
   },
   progressLabel: {
     ...typography.body,
-    fontWeight: '600'
+    fontWeight: '700',
+    textAlign: 'center'
   }
 });

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { gradients, spacing, typography } from '../theme';
+import { gradients, palette, spacing, typography } from '../theme';
 
 interface PrimaryButtonProps {
   label: string;
@@ -12,7 +12,7 @@ interface PrimaryButtonProps {
 export const PrimaryButton: React.FC<PrimaryButtonProps> = ({ label, onPress, disabled }) => {
   return (
     <Pressable onPress={onPress} disabled={disabled} style={({ pressed }) => [styles.container, pressed && styles.pressed]}>
-      <LinearGradient colors={gradients.button} style={[styles.gradient, disabled && styles.disabled]}>
+      <LinearGradient colors={gradients.button} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={[styles.gradient, disabled && styles.disabled]}>
         <Text style={styles.label}>{label}</Text>
       </LinearGradient>
     </Pressable>
@@ -22,24 +22,30 @@ export const PrimaryButton: React.FC<PrimaryButtonProps> = ({ label, onPress, di
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    borderRadius: 28,
-    overflow: 'hidden'
+    borderRadius: 32,
+    overflow: 'hidden',
+    shadowColor: palette.coral,
+    shadowOpacity: 0.3,
+    shadowRadius: 18,
+    shadowOffset: { width: 0, height: 10 },
+    elevation: 6
   },
   gradient: {
-    paddingVertical: spacing.sm,
-    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
+    paddingHorizontal: spacing.xl,
     alignItems: 'center'
   },
   label: {
     ...typography.body,
     fontSize: 18,
-    fontWeight: '600',
-    color: '#ffffff'
+    fontWeight: '700',
+    color: palette.white,
+    letterSpacing: 0.4
   },
   pressed: {
-    opacity: 0.9
+    opacity: 0.85
   },
   disabled: {
-    opacity: 0.5
+    opacity: 0.55
   }
 });
