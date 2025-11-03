@@ -26,80 +26,52 @@ export const ScanResultsScreen: React.FC<ScanResultsScreenProps> = ({ onNext }) 
   return (
     <View style={styles.root}>
       <LinearGradient colors={gradients.background} style={StyleSheet.absoluteFill} />
+
       <BottomSheet ref={sheetRef} onClosed={handleClosed} contentStyle={styles.sheetContent}>
+        {/* Header */}
         <View style={styles.header}>
           <Text style={styles.overline}>Scan complete</Text>
-          <Text style={styles.timestamp}>Captured May 12, 2026 · 09:42 AM</Text>
+          <Text style={styles.timestamp}>May 12, 2026</Text>
         </View>
 
-        <LinearGradient colors={gradients.highlight} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.summaryCard}>
+        {/* Compact summary */}
+        <LinearGradient colors={gradients.highlight} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.summary}>
           <View style={styles.summaryRow}>
-            <View style={styles.scoreColumn}>
+            <View style={styles.scoreTile}>
               <Text style={styles.scoreValue}>-1.6</Text>
               <Text style={styles.scoreLabel}>T-score</Text>
-              <View style={styles.deltaPill}>
-                <Text style={styles.deltaValue}>+0.2</Text>
-                <Text style={styles.deltaLabel}>vs. last scan</Text>
-              </View>
             </View>
-            <View style={styles.insightColumn}>
-              <Text style={styles.riskLevel}>Improving trend</Text>
-              <Text style={styles.riskBody}>
-                Bone health is trending upward. Keep up the balance work and calcium support routine.
-              </Text>
-              <View style={styles.statusRow}>
+
+            {/* <View style={styles.summaryRight}> */}
+              <View style={styles.statusPill}>
                 <View style={styles.statusDot} />
-                <Text style={styles.statusLabel}>Moderate fall risk</Text>
+                <Text style={styles.statusText}>Moderate fall risk.</Text>
               </View>
+            
+
+              <Text style={styles.previousInline}>
+                <Text style={styles.previousLabel}>Previous</Text>
+                <Text style={styles.previousValue}>  +0.2 · Apr 18, 2026</Text>
+              </Text>
             </View>
-          </View>
-          <View style={styles.previousRow}>
-            <Text style={styles.previousLabel}>Previous</Text>
-            <Text style={styles.previousValue}>-1.8 · Apr 18, 2026</Text>
-          </View>
+  
+          {/* </View> */}
         </LinearGradient>
 
-        <View style={styles.metricsGrid}>
-          <View style={styles.metricCard}>
-            <Text style={styles.metricHeading}>Scan duration</Text>
-            <Text style={styles.metricValue}>1.2 sec</Text>
-            <Text style={styles.metricHelper}>Capture time stayed within target window.</Text>
+        {/* Small metric chips */}
+        <View style={styles.chipRow}>
+          <View style={styles.chip}>
+            <Text style={styles.chipTitle}>Scan duration</Text>
+            <Text style={styles.chipValue}>1.2 sec</Text>
           </View>
-          <View style={styles.metricCard}>
-            <Text style={styles.metricHeading}>Streak</Text>
-            <Text style={styles.metricValue}>6 weeks</Text>
-            <Text style={styles.metricHelper}>Consistent weekly scans maintain your baseline.</Text>
+          <View style={styles.chip}>
+            <Text style={styles.chipTitle}>Streak</Text>
+            <Text style={styles.chipValue}>6 weeks</Text>
           </View>
-          <View style={styles.metricCard}>
-            <Text style={styles.metricHeading}>Next check-in</Text>
-            <Text style={styles.metricValue}>in 2 days</Text>
-            <Text style={styles.metricHelper}>We will remind you about your strength session.</Text>
+          <View style={styles.chip}>
+            <Text style={styles.chipTitle}>Next DXA Scan</Text>
+            <Text style={styles.chipValue}>in 2 months</Text>
           </View>
-        </View>
-
-        <View style={styles.tipCard}>
-          <Text style={styles.tipTitle}>Suggested focus</Text>
-          <View style={styles.tipRow}>
-            <View style={styles.tipBullet} />
-            <Text style={styles.tipText}>Add 10 minutes of balance work to your next walk.</Text>
-          </View>
-          <View style={styles.tipRow}>
-            <View style={styles.tipBullet} />
-            <Text style={styles.tipText}>Log calcium supplements by 10 AM and 8 PM today.</Text>
-          </View>
-          <View style={styles.tipRow}>
-            <View style={styles.tipBullet} />
-            <Text style={styles.tipText}>Share today’s scan with Dr. Patel ahead of your visit.</Text>
-          </View>
-        </View>
-
-        <View style={styles.actions}>
-          <Text style={styles.actionHint}>Insights are now saved. Review trends or share with your care team anytime.</Text>
-          <Pressable onPress={handleContinue} style={({ pressed }) => [styles.actionButton, pressed && styles.actionButtonPressed]}>
-            <LinearGradient colors={gradients.button} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.buttonBackground}>
-              <Text style={styles.buttonLabel}>Go to dashboard</Text>
-            </LinearGradient>
-          </Pressable>
         </View>
       </BottomSheet>
     </View>
@@ -107,220 +79,139 @@ export const ScanResultsScreen: React.FC<ScanResultsScreenProps> = ({ onNext }) 
 };
 
 const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    justifyContent: 'flex-end'
-  },
+  root: { flex: 1, justifyContent: 'flex-end' },
+
   sheetContent: {
-    gap: spacing.lg
+    gap: spacing.md,               // tighter vertical rhythm
+    paddingTop: spacing.sm,
   },
-  header: {
-    gap: spacing.xs / 2
-  },
+
+  header: { gap: spacing.xs / 2 },
   overline: {
     ...typography.body,
     fontSize: 12,
     letterSpacing: 2,
     textTransform: 'uppercase',
-    color: palette.mist
+    color: palette.mist,
   },
   timestamp: {
     ...typography.body,
     fontSize: 18,
     fontWeight: '600',
-    color: palette.graphite
+    color: palette.graphite,
   },
-  summaryCard: {
-    borderRadius: 32,
-    padding: spacing.lg,
-    gap: spacing.lg,
+
+  /* ===== Summary (compact) ===== */
+  summary: {
+    borderRadius: 24,
+    padding: spacing.md,           // less padding
     shadowColor: '#E7D4FF',
-    shadowOpacity: 0.35,
-    shadowRadius: 28,
-    shadowOffset: { width: 0, height: 16 }
+    shadowOpacity: 0.22,
+    shadowRadius: 18,
+    shadowOffset: { width: 0, height: 10 },
   },
   summaryRow: {
-    flexDirection: 'row',
-    gap: spacing.lg
-  },
-  scoreColumn: {
-    width: 132,
-    borderRadius: 28,
-    padding: spacing.md,
-    backgroundColor: 'rgba(255,255,255,0.78)',
+    flexDirection: 'column',
     alignItems: 'center',
-    gap: spacing.sm
+    gap: spacing.md,
   },
-  scoreValue: {
-    fontSize: 44,
-    fontWeight: '700',
-    color: palette.graphite
+  scoreTile: {
+    width: 200,                    // smaller tile
+    height: 96,
+    borderRadius: 20,
+    backgroundColor: 'rgba(255,255,255,0.82)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: spacing.xs / 2,
   },
+  scoreValue: { ...typography.heading,
+    textAlign: 'center'},
   scoreLabel: {
     ...typography.body,
-    fontSize: 14,
-    letterSpacing: 1.2,
-    textTransform: 'uppercase',
-    color: palette.mist
-  },
-  deltaPill: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.xs / 2,
-    paddingHorizontal: spacing.sm,
-    paddingVertical: spacing.xs / 1.5,
-    borderRadius: 16,
-    backgroundColor: 'rgba(255, 139, 124, 0.16)'
-  },
-  deltaValue: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: palette.coral
-  },
-  deltaLabel: {
-    ...typography.body,
     fontSize: 13,
-    color: palette.coral
+    letterSpacing: 1,
+    textTransform: 'uppercase',
+    color: palette.mist,
   },
-  insightColumn: {
-    flex: 1,
-    gap: spacing.sm
+  summaryRight: {
+    minWidth: 160,
+    gap: spacing.sm,
   },
-  riskLevel: {
-    fontSize: 22,
-    fontWeight: '700',
-    color: palette.graphite
-  },
-  riskBody: {
-    ...typography.body,
-    lineHeight: 22
-  },
-  statusRow: {
+  statusPill: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing.xs
-  },
-  statusDot: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    backgroundColor: palette.coral
-  },
-  statusLabel: {
-    ...typography.body,
-    fontWeight: '600',
-    color: palette.coral
-  },
-  previousRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    gap: spacing.xs,
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.xs,
-    borderRadius: 20,
-    backgroundColor: 'rgba(255,255,255,0.8)'
+    borderRadius: 18,
+    backgroundColor: 'rgba(255,255,255,0.5)',
+  },
+  statusDot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: palette.coral,
+  },
+  statusText: {
+    ...typography.body,
+    color: palette.coral,
+  },
+  previousInline: {
+    ...typography.body,
+    color: palette.graphite,
   },
   previousLabel: {
     ...typography.body,
-    fontSize: 14,
-    color: palette.mist,
+    fontSize: 13,
     textTransform: 'uppercase',
-    letterSpacing: 1.1
+    letterSpacing: 1,
+    color: palette.mist,
   },
   previousValue: {
     ...typography.body,
     fontWeight: '600',
-    color: palette.graphite
+    color: palette.graphite,
   },
-  metricsGrid: {
+
+  /* ===== Metric chips (no big cards) ===== */
+  chipRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: spacing.md
+    gap: spacing.sm,
   },
-  metricCard: {
-    flexBasis: '48%',
+  chip: {
     flexGrow: 1,
-    borderRadius: 28,
-    padding: spacing.md,
+    flexBasis: '30%',
+    minWidth: 120,
+    borderRadius: 16,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
     backgroundColor: palette.white,
-    gap: spacing.xs,
     borderWidth: 1,
-    borderColor: 'rgba(232, 226, 255, 0.5)',
+    borderColor: 'rgba(232,226,255,0.55)',
     shadowColor: '#E7D4FF',
-    shadowOpacity: 0.22,
-    shadowRadius: 18,
-    shadowOffset: { width: 0, height: 12 }
+    shadowOpacity: 0.12,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 6 },
+    gap: 2,
   },
-  metricHeading: {
+  chipTitle: {
     ...typography.body,
-    fontSize: 14,
+    fontSize: 12,
     color: palette.mist,
     textTransform: 'uppercase',
-    letterSpacing: 1
+    letterSpacing: 0.8,
   },
-  metricValue: {
-    fontSize: 22,
-    fontWeight: '700',
-    color: palette.graphite
+  chipValue: {
+    ...typography.heading,
+    fontSize: 20,
+    lineHeight: 32, 
+    color: palette.graphite,
   },
-  metricHelper: {
-    ...typography.body,
-    fontSize: 15,
-    lineHeight: 20
-  },
-  tipCard: {
-    borderRadius: 28,
-    padding: spacing.lg,
-    backgroundColor: 'rgba(255, 247, 242, 0.85)',
-    gap: spacing.sm
-  },
-  tipTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: palette.graphite
-  },
-  tipRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: spacing.sm
-  },
-  tipBullet: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    marginTop: 6,
-    backgroundColor: palette.coral
-  },
-  tipText: {
-    ...typography.body,
-    flex: 1,
-    lineHeight: 20
-  },
-  actions: {
-    alignItems: 'center',
-    gap: spacing.sm
-  },
-  actionHint: {
-    ...typography.body,
-    textAlign: 'center',
-    color: palette.mist
-  },
-  actionButton: {
-    borderRadius: 30,
-    overflow: 'hidden'
-  },
-  actionButtonPressed: {
-    opacity: 0.9
-  },
-  buttonBackground: {
-    paddingHorizontal: spacing.xl,
-    paddingVertical: spacing.sm,
-    alignItems: 'center'
-  },
-  buttonLabel: {
-    ...typography.body,
-    fontSize: 17,
-    fontWeight: '700',
-    color: palette.white
-  }
+
+  /* ===== CTA ===== */
+  cta: { borderRadius: 26, overflow: 'hidden', marginTop: spacing.sm },
+  ctaPressed: { opacity: 0.92 },
+  ctaBg: { paddingVertical: spacing.sm, alignItems: 'center' },
+  ctaLabel: { ...typography.body, fontSize: 16, fontWeight: '700', color: palette.white },
 });
