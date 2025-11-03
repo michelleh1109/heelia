@@ -47,14 +47,14 @@ export const ScanningScreen: React.FC<ScanningScreenProps> = ({ onComplete }) =>
         </View>
 
         <View style={styles.copy}>
-          {/* <Text style={styles.subtitle}>Step 3 · Scan</Text> */}
+
           <Text style={styles.title}>Ready to Scan</Text>
           <Text style={styles.body}>
             Ensure your heel is touching back of the device, and wings are secure on heel bone. Keep your foot still until scan is ready.
           </Text>
         </View>
 
-        <PrimaryButton label={isReady ? 'Scan' : 'Scanning...'} onPress={onComplete} disabled={!isReady} />
+        <PrimaryButton label='Scan' onPress={onComplete}/>
       </View>
     </ScreenContainer>
   );
@@ -120,12 +120,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 18 },
     elevation: 16
   },
-  // innerRing: {
-  //   position: 'absolute',
-  //   borderWidth: 1,
-  //   borderColor: 'rgba(255, 138, 124, 0.45)',
-  //   backgroundColor: 'rgba(255, 255, 255, 0.5)'
-  // },
   cloudDot: {
     position: 'absolute',
     width: 16,

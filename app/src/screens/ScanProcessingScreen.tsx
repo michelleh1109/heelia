@@ -94,10 +94,9 @@ export const ScanProcessingScreen: React.FC<ScanProcessingScreenProps> = ({ onCo
         </View>
 
         <View style={styles.copy}>
-          <Text style={styles.title}>Scanning in progress</Text>
+          <Text style={styles.title}>Scanning...</Text>
           <Text style={styles.body}>
-            Hold steady while LumiSense maps your heel structure. We’re capturing micro-vibrations to model your bone density
-            signature.
+            Hold steady while we measure your bone density.
           </Text>
         </View>
 

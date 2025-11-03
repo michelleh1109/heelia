@@ -43,7 +43,7 @@ export const ScanResultsScreen: React.FC<ScanResultsScreenProps> = ({ onNext }) 
 
           <View style={styles.riskPanel}>
             <Text style={styles.riskLevel}>Moderate fall risk</Text>
-            <Text style={styles.riskBody}>Bone structure improving. Maintain daily balance exercises and calcium intake.</Text>
+            <Text style={styles.riskBody}>Bone health improving. Maintain daily balance exercises and calcium intake.</Text>
           </View>
 
           <View style={styles.deltaRow}>
@@ -57,12 +57,12 @@ export const ScanResultsScreen: React.FC<ScanResultsScreenProps> = ({ onNext }) 
 
         <View style={styles.metricsRow}>
           <View style={styles.metricCard}>
-            <Text style={styles.metricValue}>92%</Text>
-            <Text style={styles.metricLabel}>Stability index</Text>
+            <Text style={styles.metricValue}>1.2</Text>
+            <Text style={styles.metricLabel}>Seconds scanned</Text>
           </View>
           <View style={styles.metricCard}>
-            <Text style={styles.metricValue}>48%</Text>
-            <Text style={styles.metricLabel}>Risk reduced</Text>
+            <Text style={styles.metricValue}>6</Text>
+            <Text style={styles.metricLabel}>Week Streak</Text>
           </View>
         </View>
 

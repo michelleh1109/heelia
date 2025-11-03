@@ -19,11 +19,9 @@ export const CalibrationScreen: React.FC<CalibrationScreenProps> = ({ onComplete
     Animated.timing(progress, {
       toValue: 100,
       duration: 4500,
-      useNativeDriver: false
+      useNativeDriver: false,
     }).start(({ finished }) => {
-      if (finished) {
-        setTimeout(onComplete, 600);
-      }
+      if (finished) setTimeout(onComplete, 600);
     });
 
     return () => {
@@ -34,78 +32,79 @@ export const CalibrationScreen: React.FC<CalibrationScreenProps> = ({ onComplete
 
   const widthInterpolation = progress.interpolate({
     inputRange: [0, 100],
-    outputRange: ['0%', '100%']
+    outputRange: ['0%', '100%'],
   });
 
   return (
     <ScreenContainer>
       <View style={styles.wrapper}>
-        <View style={styles.copy}>
-          <Text style={styles.title}>Calibrate</Text>
-          <Text style={styles.body}>
-            Slide your heel to back of the device. Firmly squeeze the wings around your heel bone.
-          </Text>
-        </View>
-
-        <View style={styles.progressCard}>
+        <View style={styles.textCard}>
           <View style={styles.progressTrack}>
             <Animated.View style={[styles.progressFill, { width: widthInterpolation }]} />
           </View>
           <Text style={styles.progressLabel}>{displayValue}% complete</Text>
+        </View>
+
+        <View style={styles.textCard}>
+          <Text style={styles.title}>Calibrating</Text>
+          <Text style={styles.body}>
+            Slide your heel to back of the device. Firmly squeeze the wings around your heel bone.
+          </Text>
         </View>
       </View>
     </ScreenContainer>
   );
 };
 
+const CARD_WIDTH = '100%';
+
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     justifyContent: 'center',
-    gap: spacing.xl
+    alignItems: 'center',
+    gap: spacing.xl,
+    paddingHorizontal: spacing.xl,
   },
-  copy: {
-    gap: spacing.md
-  },
-  subtitle: {
-    ...typography.body,
-    textTransform: 'uppercase',
-    letterSpacing: 2,
-    fontSize: 14,
-    color: palette.mist
+  textCard: {
+    alignItems: 'center',
+    gap: spacing.md,
+    paddingHorizontal: spacing.xl,
+    paddingVertical: spacing.lg,
+    borderRadius: 36,
+    // backgroundColor: palette.white,
+    width: CARD_WIDTH,
+    shadowColor: '#E7D4FF',
+    shadowOpacity: 0.25,
+    shadowRadius: 30,
+    shadowOffset: { width: 0, height: 14 },
+    elevation: 12,
   },
   title: {
-    ...typography.heading
+    ...typography.heading,
+    textAlign: 'center',
   },
   body: {
     ...typography.body,
-    lineHeight: 24
-  },
-  progressCard: {
-    // backgroundColor: palette.white,
-    borderRadius: 36,
-    padding: spacing.xl,
-    gap: spacing.lg,
-    shadowColor: '#E7D4FF',
-    shadowOpacity: 0.3,
-    shadowRadius: 28,
-    shadowOffset: { width: 0, height: 14 },
-    elevation: 12
+    textAlign: 'center',
+    lineHeight: 24,
+    maxWidth: 320,
   },
   progressTrack: {
-    height: 16,
+    width: '100%',
+    height: 14,
     borderRadius: 12,
-    // backgroundColor: '#F9E4E1',
-    overflow: 'hidden'
+    backgroundColor: '#F9E4E1',
+    overflow: 'hidden',
   },
   progressFill: {
-    height: '50%',
+    height: '100%',
     borderRadius: 12,
-    backgroundColor: palette.coral
+    backgroundColor: palette.coral,
   },
   progressLabel: {
     ...typography.body,
     fontWeight: '700',
-    textAlign: 'center'
-  }
+    textAlign: 'center',
+  },
 });

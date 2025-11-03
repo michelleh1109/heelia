@@ -112,13 +112,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 14 },
     elevation: 12
   },
-  subtitle: {
-    ...typography.body,
-    textTransform: 'uppercase',
-    letterSpacing: 2,
-    fontSize: 14,
-    color: palette.mist
-  },
   title: {
     ...typography.heading,
     textAlign: 'center'
