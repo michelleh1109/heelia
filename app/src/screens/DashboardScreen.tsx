@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { palette, spacing, typography } from '../theme';
 import { ScreenContainer } from '../components/ScreenContainer';
+import { GlassCard } from '../components/glasscard';
 
 type TimeframeKey = '1M' | '6M' | '1Y' | 'ALL';
 
@@ -25,18 +26,22 @@ const densityTrend: Record<TimeframeKey, { rangeLabel: string; data: number[]; i
   '1M': {
     rangeLabel: 'May 1 - May 30, 2026',
     data: [-1.82, -1.79, -1.76, -1.72, -1.69, -1.66, -1.63],
+    insight: 'Short-term gains from consistency this month.',
   },
   '6M': {
     rangeLabel: 'Jan 1 - May 30, 2026',
     data: [-2.12, -2.04, -1.98, -1.9, -1.84, -1.74, -1.63],
+    insight: 'Steady upward trend across the last six months.',
   },
   '1Y': {
     rangeLabel: 'May 2025 - May 2026',
     data: [-2.22, -2.14, -2.05, -1.95, -1.82, -1.73, -1.63],
+    insight: 'Year-over-year progress showing meaningful recovery.',
   },
   ALL: {
     rangeLabel: 'First scan - Today',
     data: [-2.32, -2.24, -2.15, -1.98, -1.85, -1.75, -1.63],
+    insight: 'Long-term improvement from your starting baseline.',
   }
 };
 
@@ -152,11 +157,13 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onRestart, onO
       <Pressable
         key={card.key}
         onPress={card.onPress}
-        style={({ pressed }) => [styles.metricCard, cardStyle, pressed && styles.metricCardPressed]}
+        style={({ pressed }) => [styles.metricCardPressable, pressed && styles.metricCardPressed]}
       >
-        <Text style={styles.metricTitle}>{card.title}</Text>
-        <Text style={[styles.metricHeadline, card.accent ? { color: card.accent } : null]}>{card.headline}</Text>
-        <Text style={styles.metricHelper}>{card.helper}</Text>
+        <GlassCard style={[styles.metricCard, cardStyle]}>
+          <Text style={styles.metricTitle}>{card.title}</Text>
+          <Text style={[styles.metricHeadline, card.accent ? { color: card.accent } : null]}>{card.headline}</Text>
+          <Text style={styles.metricHelper}>{card.helper}</Text>
+        </GlassCard>
       </Pressable>
     );
   };
@@ -227,7 +234,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onRestart, onO
 
         {/* CHART */}
         <View style={styles.section}>
-          <View style={[styles.chartCard, styles.bound]}>
+          <GlassCard style={[styles.chartCard, styles.bound]}>
             <View style={styles.chartHeader}>
               <View>
                 <Text style={styles.chartRange}>{chartSummary.rangeLabel}</Text>
@@ -272,7 +279,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onRestart, onO
               <Text style={styles.deltaValue}>{deltaLabel}</Text>
               <Text style={styles.deltaLabel}>change from start</Text>
             </View>
-          </View>
+          </GlassCard>
         </View>
 
         {/* METRICS */}
@@ -383,8 +390,6 @@ const styles = StyleSheet.create({
   timeframeLabelActive: { color: palette.graphite },
 
   chartCard: {
-    backgroundColor: palette.white,
-
     padding: spacing.lg,
     borderRadius: 28,
     gap: spacing.md,
@@ -392,6 +397,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.22,
     shadowRadius: 26,
     shadowOffset: { width: 0, height: 12 },
+    borderWidth: 1.2,
   },
   chartHeader: { flexDirection: 'row', justifyContent: 'space-between', gap: spacing.md },
   chartRange: { ...typography.body, fontSize:14, color: palette.graphite },
@@ -431,16 +437,20 @@ const styles = StyleSheet.create({
     gap: spacing.md,
   },
 
-  metricCard: {
+  metricCardPressable: {
     width: '45%',
+    borderRadius: 24,
+  },
+
+  metricCard: {
     padding: spacing.md,
     borderRadius: 24,
-    backgroundColor: palette.white,
     gap: spacing.xs,
     shadowColor: '#E7D4FF',
     shadowOpacity: 0.4,
     shadowRadius: 25,
     shadowOffset: { width: 0, height: 10 },
+    borderWidth: 1.2,
   },
   metricCardPressed: { transform: [{ scale: 0.98 }], opacity: 0.92 },
   metricTitle: { fontSize: 12, color: palette.mist, textTransform: 'uppercase', letterSpacing: 1 },

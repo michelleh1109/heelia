@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Easing, StyleSheet, Text, View } from 'react-native';
 import { ScreenContainer } from '../components/ScreenContainer';
 import { palette, spacing, typography } from '../theme';
+import { GlassCard } from '../components/glasscard';
 
 interface ScanProcessingScreenProps {
   onComplete: () => void;
@@ -93,12 +94,12 @@ export const ScanProcessingScreen: React.FC<ScanProcessingScreenProps> = ({ onCo
           </Animated.View>
         </View>
 
-        <View style={styles.copy}>
+        <GlassCard style={styles.copy}>
           <Text style={styles.title}>Scanning...</Text>
           <Text style={styles.body}>
             Hold steady while we measure your bone density.
           </Text>
-        </View>
+        </GlassCard>
 
         <View style={styles.pill}>
           <Animated.View style={[styles.pillFill, { width: progressWidth }]} />
@@ -150,7 +151,14 @@ const styles = StyleSheet.create({
   copy: {
     gap: spacing.md,
     paddingHorizontal: spacing.xl,
-    alignItems: 'center'
+    paddingVertical: spacing.lg,
+    alignItems: 'center',
+    borderRadius: 32,
+    shadowColor: '#E7D4FF',
+    shadowOpacity: 0.25,
+    shadowRadius: 26,
+    shadowOffset: { width: 0, height: 12 },
+    borderWidth: 1.2,
   },
   title: {
     ...typography.heading,
