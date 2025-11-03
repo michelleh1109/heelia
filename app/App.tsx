@@ -22,23 +22,23 @@ const navigationTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: palette.accentPink,
-    background: palette.background,
-    card: palette.background,
-    text: palette.textPrimary,
-    border: palette.border,
-    notification: palette.accentCoral
+    primary: palette.neonBlue,
+    background: palette.midnight,
+    card: palette.midnight,
+    text: '#ffffff',
+    border: 'rgba(255,255,255,0.12)',
+    notification: palette.blush
   }
 };
 
 export default function App() {
   return (
     <NavigationContainer theme={navigationTheme}>
-      <StatusBar style="dark" />
+      <StatusBar style="light" />
       <Stack.Navigator
         screenOptions={{
           headerTransparent: true,
-          headerTintColor: palette.textPrimary,
+          headerTintColor: '#ffffff',
           headerTitle: '',
           animation: 'fade'
         }}
@@ -53,9 +53,7 @@ export default function App() {
           {({ navigation }) => <ScanningScreen onComplete={() => navigation.replace('Dashboard')} />}
         </Stack.Screen>
         <Stack.Screen name="Dashboard" options={{ headerShown: false }}>
-          {({ navigation }) => (
-            <DashboardScreen onRestart={() => navigation.reset({ index: 0, routes: [{ name: 'Connection' }] })} />
-          )}
+          {({ navigation }) => <DashboardScreen onRestart={() => navigation.reset({ index: 0, routes: [{ name: 'Connection' }] })} />}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>

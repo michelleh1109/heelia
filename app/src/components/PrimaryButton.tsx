@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, StyleProp, StyleSheet, Text, ViewStyle } from 'react-native';
+import { Pressable, StyleSheet, Text } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { gradients, spacing, typography } from '../theme';
 
@@ -7,13 +7,12 @@ interface PrimaryButtonProps {
   label: string;
   onPress: () => void;
   disabled?: boolean;
-  style?: StyleProp<ViewStyle>;
 }
 
-export const PrimaryButton: React.FC<PrimaryButtonProps> = ({ label, onPress, disabled, style }) => {
+export const PrimaryButton: React.FC<PrimaryButtonProps> = ({ label, onPress, disabled }) => {
   return (
-    <Pressable onPress={onPress} disabled={disabled} style={({ pressed }) => [styles.container, style, pressed && styles.pressed]}>
-      <LinearGradient colors={gradients.button} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={[styles.gradient, disabled && styles.disabled]}>
+    <Pressable onPress={onPress} disabled={disabled} style={({ pressed }) => [styles.container, pressed && styles.pressed]}>
+      <LinearGradient colors={gradients.button} style={[styles.gradient, disabled && styles.disabled]}>
         <Text style={styles.label}>{label}</Text>
       </LinearGradient>
     </Pressable>
@@ -22,31 +21,25 @@ export const PrimaryButton: React.FC<PrimaryButtonProps> = ({ label, onPress, di
 
 const styles = StyleSheet.create({
   container: {
-    alignSelf: 'stretch',
-    borderRadius: 32,
-    overflow: 'hidden',
-    shadowColor: '#C7B5FF',
-    shadowOpacity: 0.35,
-    shadowRadius: 18,
-    shadowOffset: { width: 0, height: 8 },
-    elevation: 4
+    width: '100%',
+    borderRadius: 28,
+    overflow: 'hidden'
   },
   gradient: {
-    paddingVertical: spacing.md,
-    paddingHorizontal: spacing.xl,
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.lg,
     alignItems: 'center'
   },
   label: {
     ...typography.body,
     fontSize: 18,
-    fontWeight: '700',
-    color: '#ffffff',
-    letterSpacing: 0.4
+    fontWeight: '600',
+    color: '#ffffff'
   },
   pressed: {
-    transform: [{ scale: 0.99 }]
+    opacity: 0.9
   },
   disabled: {
-    opacity: 0.6
+    opacity: 0.5
   }
 });

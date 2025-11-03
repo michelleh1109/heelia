@@ -44,8 +44,7 @@ export const CalibrationScreen: React.FC<CalibrationScreenProps> = ({ onComplete
           <Text style={styles.subtitle}>Step 2 · Calibrate</Text>
           <Text style={styles.title}>Squeeze the wings firmly</Text>
           <Text style={styles.body}>
-            Hold Heelia upright and gently squeeze the wings three times. This locks in your baseline pressure so
-            every scan stays precise.
+            Slide your heel back into the device. Squeeze wings snugly around your heel bone.
           </Text>
         </View>
 
@@ -74,44 +73,36 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     letterSpacing: 2,
     fontSize: 14,
-    color: palette.accentLilac
+    color: 'rgba(255,255,255,0.64)'
   },
   title: {
-    ...typography.heading,
-    lineHeight: 36
+    ...typography.heading
   },
   body: {
     ...typography.body,
-    lineHeight: 26
+    lineHeight: 22
   },
   progressCard: {
-    borderRadius: 28,
+    backgroundColor: 'rgba(12, 8, 40, 0.76)',
+    borderRadius: 24,
     padding: spacing.lg,
     gap: spacing.md,
-    backgroundColor: palette.surface,
-    shadowColor: '#DAD1FF',
-    shadowOpacity: 0.45,
-    shadowRadius: 24,
-    shadowOffset: { width: 0, height: 16 },
     borderWidth: 1,
-    borderColor: palette.border,
-    elevation: 6
+    borderColor: 'rgba(255,255,255,0.1)'
   },
   progressTrack: {
-    height: 18,
-    borderRadius: 16,
-    backgroundColor: 'rgba(155, 140, 255, 0.18)',
+    height: 14,
+    borderRadius: 12,
+    backgroundColor: 'rgba(255,255,255,0.12)',
     overflow: 'hidden'
   },
   progressFill: {
     height: '100%',
-    borderRadius: 16,
-    backgroundColor: palette.accentBlue
+    borderRadius: 12,
+    backgroundColor: palette.neonBlue
   },
   progressLabel: {
     ...typography.body,
-    fontWeight: '600',
-    color: palette.textPrimary,
-    letterSpacing: 0.6
+    fontWeight: '600'
   }
 });
