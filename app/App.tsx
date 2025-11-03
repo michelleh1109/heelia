@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { DefaultTheme, NavigationContainer, Theme } from '@react-navigation/native';
+import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ConnectionScreen } from './src/screens/ConnectionScreen';
 import { CalibrationScreen } from './src/screens/CalibrationScreen';
@@ -18,30 +18,29 @@ export type RootStackParamList = {
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-const navigationTheme: Theme = {
+const navigationTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: palette.accentBlue,
-    background: palette.background,
-    card: palette.surface,
-    text: palette.textPrimary,
-    border: palette.border,
-    notification: palette.accentCoral
+    primary: palette.neonBlue,
+    background: palette.midnight,
+    card: palette.midnight,
+    text: '#ffffff',
+    border: 'rgba(255,255,255,0.12)',
+    notification: palette.blush
   }
 };
 
 export default function App() {
   return (
     <NavigationContainer theme={navigationTheme}>
-      <StatusBar style="dark" backgroundColor={palette.background} />
+      <StatusBar style="light" />
       <Stack.Navigator
         screenOptions={{
           headerTransparent: true,
-          headerTintColor: palette.textPrimary,
+          headerTintColor: '#ffffff',
           headerTitle: '',
-          animation: 'fade',
-          contentStyle: { backgroundColor: palette.background }
+          animation: 'fade'
         }}
       >
         <Stack.Screen name="Connection" options={{ headerShown: false }}>
@@ -54,9 +53,7 @@ export default function App() {
           {({ navigation }) => <ScanningScreen onComplete={() => navigation.replace('Dashboard')} />}
         </Stack.Screen>
         <Stack.Screen name="Dashboard" options={{ headerShown: false }}>
-          {({ navigation }) => (
-            <DashboardScreen onRestart={() => navigation.reset({ index: 0, routes: [{ name: 'Connection' }] })} />
-          )}
+          {({ navigation }) => <DashboardScreen onRestart={() => navigation.reset({ index: 0, routes: [{ name: 'Connection' }] })} />}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>

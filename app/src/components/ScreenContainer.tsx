@@ -1,26 +1,17 @@
 import React from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
-import { SafeAreaView, ScrollView, StyleSheet, View, ViewStyle } from 'react-native';
+import { SafeAreaView, StyleSheet, ViewStyle } from 'react-native';
 import { gradients, spacing } from '../theme';
 
 interface ScreenContainerProps {
   children: React.ReactNode;
   style?: ViewStyle;
-  scrollable?: boolean;
 }
 
-export const ScreenContainer: React.FC<ScreenContainerProps> = ({ children, style, scrollable = false }) => {
-  const content = scrollable ? (
-    <ScrollView contentContainerStyle={[styles.content, style]} showsVerticalScrollIndicator={false}>
-      {children}
-    </ScrollView>
-  ) : (
-    <View style={[styles.content, style]}>{children}</View>
-  );
-
+export const ScreenContainer: React.FC<ScreenContainerProps> = ({ children, style }) => {
   return (
-    <LinearGradient colors={gradients.background} style={styles.gradient} start={{ x: 0.1, y: 0 }} end={{ x: 0.9, y: 1 }}>
-      <SafeAreaView style={styles.safeArea}>{content}</SafeAreaView>
+    <LinearGradient colors={gradients.background} style={styles.gradient}>
+      <SafeAreaView style={[styles.safeArea, style]}>{children}</SafeAreaView>
     </LinearGradient>
   );
 };
@@ -31,13 +22,7 @@ const styles = StyleSheet.create({
   },
   safeArea: {
     flex: 1,
-    backgroundColor: 'transparent'
-  },
-  content: {
-    flex: 1,
-    paddingHorizontal: spacing.xl,
-    paddingVertical: spacing.xl,
-    gap: spacing.xl,
-    backgroundColor: 'transparent'
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.lg
   }
 });
