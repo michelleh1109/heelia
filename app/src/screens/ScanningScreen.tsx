@@ -29,7 +29,7 @@ export const ScanningScreen: React.FC<ScanningScreenProps> = ({ onComplete }) =>
   const dots = useMemo<DotConfig[]>(() => {
     return new Array(DOT_COUNT).fill(null).map((_, index) => {
       const angle = (index / DOT_COUNT) * Math.PI * 2;
-      const radius = size * 0.34 + Math.random() * size * 0.12;
+      const radius = size * 0.18 + Math.random() * size * 0.12;
       const x = Math.cos(angle) * radius + size / 2;
       const y = Math.sin(angle) * radius + size / 2;
       return { x, y, delay: Math.random() * 1200 };

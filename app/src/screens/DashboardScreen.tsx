@@ -46,8 +46,7 @@ const styles = StyleSheet.create({
     elevation: 14
   },
   title: {
-    ...typography.heading,
-    textAlign: 'center'
+    ...typography.heading
   },
   body: {
     ...typography.body,

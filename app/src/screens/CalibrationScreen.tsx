@@ -43,7 +43,7 @@ export const CalibrationScreen: React.FC<CalibrationScreenProps> = ({ onComplete
         <View style={styles.copy}>
           <Text style={styles.title}>Calibrate</Text>
           <Text style={styles.body}>
-            Slide your heel back into Heelia. Snugly squeeze the wings around your heel bone.
+            Slide your heel to back of the device. Firmly squeeze the wings around your heel bone.
           </Text>
         </View>
 
