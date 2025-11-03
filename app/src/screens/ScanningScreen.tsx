@@ -39,11 +39,11 @@ export const ScanningScreen: React.FC<ScanningScreenProps> = ({ onComplete }) =>
   return (
     <ScreenContainer>
       <View style={styles.wrapper}>
-        <View style={[styles.cloudContainer, { width: size, height: size }]}> 
+        <View style={[styles.cloudContainer, { width: size, height: size }]}>
           {dots.map((dot, index) => (
             <PulsingDot key={`dot-${index}`} {...dot} />
           ))}
-          <View style={[styles.innerRing, { width: size * 0.4, height: size * 0.4, borderRadius: (size * 0.4) / 2 }]} />
+          <View style={[styles.innerRing, { width: size * 0.42, height: size * 0.42, borderRadius: (size * 0.42) / 2 }]} />
         </View>
 
         <View style={styles.copy}>
@@ -110,38 +110,52 @@ const styles = StyleSheet.create({
   },
   cloudContainer: {
     borderRadius: 400,
-    backgroundColor: 'rgba(70, 44, 120, 0.28)',
+    backgroundColor: 'rgba(255, 215, 222, 0.55)',
     overflow: 'hidden',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    shadowColor: palette.blush,
+    shadowOpacity: 0.3,
+    shadowRadius: 32,
+    shadowOffset: { width: 0, height: 18 },
+    elevation: 16
   },
   innerRing: {
     position: 'absolute',
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.2)',
-    backgroundColor: 'rgba(105, 78, 255, 0.08)'
+    borderColor: 'rgba(255, 138, 124, 0.45)',
+    backgroundColor: 'rgba(255, 255, 255, 0.5)'
   },
   cloudDot: {
     position: 'absolute',
     width: 10,
     height: 10,
     borderRadius: 5,
-    backgroundColor: palette.blush,
-    shadowColor: palette.blush,
-    shadowOpacity: 0.4,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 0 }
+    backgroundColor: palette.softCoral,
+    shadowColor: palette.softCoral,
+    shadowOpacity: 0.35,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 4 }
   },
   copy: {
-    gap: spacing.sm,
-    alignItems: 'center'
+    gap: spacing.md,
+    alignItems: 'center',
+    paddingHorizontal: spacing.xl,
+    paddingVertical: spacing.lg,
+    backgroundColor: 'rgba(255,255,255,0.92)',
+    borderRadius: 36,
+    shadowColor: '#E7D4FF',
+    shadowOpacity: 0.25,
+    shadowRadius: 28,
+    shadowOffset: { width: 0, height: 14 },
+    elevation: 12
   },
   subtitle: {
     ...typography.body,
     textTransform: 'uppercase',
     letterSpacing: 2,
     fontSize: 14,
-    color: 'rgba(255,255,255,0.64)'
+    color: palette.mist
   },
   title: {
     ...typography.heading,
@@ -150,7 +164,7 @@ const styles = StyleSheet.create({
   body: {
     ...typography.body,
     textAlign: 'center',
-    lineHeight: 22,
+    lineHeight: 24,
     maxWidth: 320
   }
 });

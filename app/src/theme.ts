@@ -1,35 +1,37 @@
 export const palette = {
-  midnight: '#050114',
-  deepBlue: '#1C1B4D',
-  iris: '#6B5BFF',
-  neonBlue: '#3F7CFF',
-  cottonCandy: '#FF7BC2',
-  blush: '#FF9FDD',
-  white: '#FFFFFF'
+  white: '#FFFFFF',
+  pearl: '#FFF7F2',
+  blush: '#FFE6EE',
+  coral: '#FF8B7C',
+  softCoral: '#FFB6A9',
+  lilac: '#E8E2FF',
+  mist: '#9B96A7',
+  slate: '#575365',
+  graphite: '#2E2A3A'
 };
 
 export const gradients = {
-  background: [palette.midnight, '#120A3B', palette.deepBlue],
-  button: [palette.iris, palette.neonBlue],
-  highlight: [palette.cottonCandy, palette.blush]
+  background: [palette.white, '#FFF2F4', '#FFE9E3'],
+  button: [palette.coral, palette.softCoral],
+  highlight: [palette.blush, palette.lilac]
 };
 
 export const typography = {
   heading: {
     fontSize: 28,
     fontWeight: '700' as const,
-    color: palette.white
+    color: palette.graphite
   },
   body: {
     fontSize: 16,
-    color: 'rgba(255,255,255,0.84)'
+    color: palette.slate
   }
 };
 
 export const spacing = {
-  xs: 8,
-  sm: 12,
-  md: 20,
-  lg: 28,
-  xl: 40
+  xs: 10,
+  sm: 16,
+  md: 24,
+  lg: 32,
+  xl: 48
 };

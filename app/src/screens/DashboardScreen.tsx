@@ -11,14 +11,16 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onRestart }) =
   return (
     <ScreenContainer>
       <View style={styles.wrapper}>
-        <Text style={styles.title}>You’re connected!</Text>
-        <Text style={styles.body}>
-          Calibration and scanning are complete. Explore your insights or rerun the setup any time to get the latest
-          fit recommendations.
-        </Text>
-        <Text style={styles.link} onPress={onRestart}>
-          Rerun setup
-        </Text>
+        <View style={styles.card}>
+          <Text style={styles.title}>You’re connected!</Text>
+          <Text style={styles.body}>
+            Calibration and scanning are complete. Explore your insights or rerun the setup any time to get the latest fit
+            recommendations.
+          </Text>
+          <Text style={styles.link} onPress={onRestart}>
+            Rerun setup
+          </Text>
+        </View>
       </View>
     </ScreenContainer>
   );
@@ -28,8 +30,20 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    gap: spacing.md
+    alignItems: 'center'
+  },
+  card: {
+    width: '100%',
+    maxWidth: 360,
+    backgroundColor: palette.white,
+    padding: spacing.xl,
+    borderRadius: 36,
+    gap: spacing.lg,
+    shadowColor: '#E7D4FF',
+    shadowOpacity: 0.35,
+    shadowRadius: 32,
+    shadowOffset: { width: 0, height: 16 },
+    elevation: 14
   },
   title: {
     ...typography.heading,
@@ -38,12 +52,12 @@ const styles = StyleSheet.create({
   body: {
     ...typography.body,
     textAlign: 'center',
-    maxWidth: 320,
-    lineHeight: 22
+    lineHeight: 24
   },
   link: {
-    color: palette.blush,
-    fontWeight: '600',
+    alignSelf: 'center',
+    color: palette.coral,
+    fontWeight: '700',
     fontSize: 16
   }
 });
