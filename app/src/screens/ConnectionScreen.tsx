@@ -48,15 +48,15 @@ export const ConnectionScreen: React.FC<ConnectionScreenProps> = ({ onContinue }
         <View style={styles.card}>
           <View style={styles.cardAccent} />
           <View style={styles.cardContent}>
-            <Text style={[styles.subtitle, styles.centerText]}>Step 1 · Connect</Text>
-            <Text style={[styles.title, styles.centerText]}>Bring Heelia Online</Text>
+            {/* <Text style={[styles.subtitle, styles.centerText]}>Step 1 · Connect</Text> */}
+            <Text style={[styles.title, styles.centerText]}>Bluetooth Pairing</Text>
             <Text style={[styles.body, styles.centerText]}>
-              Plug Heelia into power and keep it within a few feet. Enable Bluetooth on your phone so we can find your device instantly.
+              Plug Heelia into power and turn it on. Enable Bluetooth on your phone.
             </Text>
           </View>
         </View>
 
-        <PrimaryButton label="Connect to Heelia" onPress={onContinue} />
+        <PrimaryButton label="Connect" onPress={onContinue} />
       </View>
     </ScreenContainer>
   );
@@ -73,17 +73,13 @@ const styles = StyleSheet.create({
     width: '100%',
     maxWidth: 380,
     borderRadius: 36,
-    backgroundColor: 'rgba(255,255,255,0.92)',
+    // backgroundColor: 'rgba(255,255,255,0.92)',
     shadowColor: palette.blush,
     shadowOpacity: 0.3,
     shadowRadius: 32,
     shadowOffset: { width: 0, height: 16 },
     elevation: 12,
     overflow: 'hidden'
-  },
-  cardAccent: {
-    height: 6,
-    backgroundColor: palette.softCoral
   },
   cardContent: {
     paddingHorizontal: spacing.xl,
@@ -115,7 +111,7 @@ const styles = StyleSheet.create({
     borderRadius: 88,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 243, 240, 0.8)',
+    // backgroundColor: 'rgba(255, 243, 240, 0.8)',
     shadowColor: palette.blush,
     shadowOpacity: 0.35,
     shadowRadius: 28,

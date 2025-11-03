@@ -43,10 +43,10 @@ export const CalibrationScreen: React.FC<CalibrationScreenProps> = ({ onComplete
         <View style={styles.instructionsCard}>
           <View style={styles.instructionsAccent} />
           <View style={styles.instructionsContent}>
-            <Text style={styles.subtitle}>Step 2 · Calibrate</Text>
-            <Text style={styles.title}>Squeeze the wings firmly</Text>
+            {/* <Text style={styles.subtitle}>Step 2 · Calibrate</Text> */}
+            <Text style={styles.title}>Calibrate</Text>
             <Text style={styles.body}>
-              Hold Heelia upright and gently squeeze the wings three times. This helps us measure your baseline pressure so readings stay precise.
+              Slide heel to back of device. Firmly squeeze wings against your heel bone.
             </Text>
           </View>
         </View>
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     lineHeight: 24
   },
   progressCard: {
-    backgroundColor: palette.white,
+    // backgroundColor: palette.white,
     borderRadius: 36,
     padding: spacing.xl,
     gap: spacing.lg,

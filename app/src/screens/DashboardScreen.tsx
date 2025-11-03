@@ -14,7 +14,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onRestart }) =
         <View style={styles.card}>
           <View style={styles.cardAccent} />
           <View style={styles.cardContent}>
-            <Text style={[styles.title, styles.centerText]}>You’re connected!</Text>
+            <Text style={[styles.title, styles.centerText]}>Scan Complete!</Text>
             <Text style={[styles.body, styles.centerText]}>
               Calibration and scanning are complete. Explore your insights or rerun the setup any time to get the latest fit recommendations.
             </Text>
@@ -38,17 +38,13 @@ const styles = StyleSheet.create({
     width: '100%',
     maxWidth: 360,
     borderRadius: 36,
-    backgroundColor: 'rgba(255,255,255,0.95)',
+    // backgroundColor: 'rgba(255,255,255,0.95)',
     shadowColor: palette.blush,
     shadowOpacity: 0.35,
     shadowRadius: 32,
     shadowOffset: { width: 0, height: 16 },
     elevation: 14,
     overflow: 'hidden'
-  },
-  cardAccent: {
-    height: 6,
-    backgroundColor: palette.softCoral
   },
   cardContent: {
     paddingHorizontal: spacing.xl,

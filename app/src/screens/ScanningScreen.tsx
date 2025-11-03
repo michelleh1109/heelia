@@ -14,7 +14,7 @@ interface DotConfig {
   delay: number;
 }
 
-const DOT_COUNT = 28;
+const DOT_COUNT = 16;
 
 export const ScanningScreen: React.FC<ScanningScreenProps> = ({ onComplete }) => {
   const [isReady, setIsReady] = useState(false);
@@ -29,7 +29,7 @@ export const ScanningScreen: React.FC<ScanningScreenProps> = ({ onComplete }) =>
   const dots = useMemo<DotConfig[]>(() => {
     return new Array(DOT_COUNT).fill(null).map((_, index) => {
       const angle = (index / DOT_COUNT) * Math.PI * 2;
-      const radius = size * 0.34 + Math.random() * size * 0.12;
+      const radius = size * 0.18 + Math.random() * size * 0.12;
       const x = Math.cos(angle) * radius + size / 2;
       const y = Math.sin(angle) * radius + size / 2;
       return { x, y, delay: Math.random() * 1200 };
@@ -39,22 +39,21 @@ export const ScanningScreen: React.FC<ScanningScreenProps> = ({ onComplete }) =>
   return (
     <ScreenContainer>
       <View style={styles.wrapper}>
-        <View style={[styles.cloudContainer, { width: size, height: size }]}>
+        <View style={[styles.cloudContainer, { width: size, height: size}]}>
           {dots.map((dot, index) => (
             <PulsingDot key={`dot-${index}`} {...dot} />
           ))}
-          <View style={[styles.innerRing, { width: size * 0.42, height: size * 0.42, borderRadius: (size * 0.42) / 2 }]} />
         </View>
 
         <View style={styles.copy}>
-          <Text style={styles.subtitle}>Step 3 · Scan</Text>
-          <Text style={styles.title}>Capturing your heel</Text>
+          {/* <Text style={styles.subtitle}>Step 3 · Scan</Text> */}
+          <Text style={styles.title}>Ready to Scan</Text>
           <Text style={styles.body}>
-            Slowly rotate your heel so Heelia can paint a precise 3D map. We’ll let you know when the scan is ready.
+            Slide your heel to back of the device, ensuring wings are still firmly in place. Hold your foot still and press scan.
           </Text>
         </View>
 
-        <PrimaryButton label={isReady ? 'View Dashboard' : 'Scanning...'} onPress={onComplete} disabled={!isReady} />
+        <PrimaryButton label={isReady ? 'Scan' : 'Scanning...'} onPress={onComplete} disabled={!isReady} />
       </View>
     </ScreenContainer>
   );
@@ -110,7 +109,7 @@ const styles = StyleSheet.create({
   },
   cloudContainer: {
     borderRadius: 400,
-    backgroundColor: 'rgba(255, 215, 222, 0.55)',
+    backgroundColor: 'rgba(255, 215, 222, 0.1)',
     overflow: 'hidden',
     justifyContent: 'center',
     alignItems: 'center',
@@ -120,29 +119,23 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 18 },
     elevation: 16
   },
-  innerRing: {
-    position: 'absolute',
-    borderWidth: 1,
-    borderColor: 'rgba(255, 138, 124, 0.45)',
-    backgroundColor: 'rgba(255, 255, 255, 0.5)'
-  },
   cloudDot: {
     position: 'absolute',
-    width: 10,
-    height: 10,
-    borderRadius: 5,
+    width: 14,
+    height: 14,
+    borderRadius: 7,
     backgroundColor: palette.softCoral,
     shadowColor: palette.softCoral,
     shadowOpacity: 0.35,
     shadowRadius: 12,
-    shadowOffset: { width: 0, height: 4 }
+    shadowOffset: { width: 0, height: 4 },
   },
   copy: {
     gap: spacing.md,
     alignItems: 'center',
     paddingHorizontal: spacing.xl,
     paddingVertical: spacing.lg,
-    backgroundColor: 'rgba(255,255,255,0.92)',
+    // backgroundColor: 'rgba(255,255,255,0.92)',
     borderRadius: 36,
     shadowColor: '#E7D4FF',
     shadowOpacity: 0.25,
