@@ -9,6 +9,7 @@ import { ScanningScreen } from './src/screens/ScanningScreen';
 import { ScanProcessingScreen } from './src/screens/ScanProcessingScreen';
 import { ScanResultsScreen } from './src/screens/ScanResultsScreen';
 import { DashboardScreen } from './src/screens/DashboardScreen';
+import { OsteoporosisEducationScreen } from './src/screens/OsteoporosisEducationScreen';
 import { palette } from './src/theme';
 
 export type RootStackParamList = {
@@ -18,6 +19,7 @@ export type RootStackParamList = {
   ScanProcessing: undefined;
   ScanResults: undefined;
   Dashboard: undefined;
+  OsteoporosisEducation: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -66,7 +68,13 @@ export default function App() {
           {({ navigation }) => (
             <DashboardScreen
               onRestart={() => navigation.reset({ index: 0, routes: [{ name: 'Connection' }] })}
+              onOpenEducation={() => navigation.navigate('OsteoporosisEducation')}
             />
+          )}
+        </Stack.Screen>
+        <Stack.Screen name="OsteoporosisEducation" options={{ headerShown: false }}>
+          {({ navigation }) => (
+            <OsteoporosisEducationScreen onClose={() => navigation.goBack()} />
           )}
         </Stack.Screen>
       </Stack.Navigator>
